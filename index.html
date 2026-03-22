@@ -663,47 +663,69 @@ function exportPrint(){
     return rows;
   }
 
-  const frontRows=toRows(active,3);
-  const backs=Array(Math.ceil(active.length/3)*3).fill(0);
-  const backRows=toRows(backs,3);
+  // Pad active to multiple of 3 for complete rows
+  const padded=active.slice();
+  while(padded.length%3!==0)padded.push(null);
+  const frontRows=toRows(padded,3);
 
-  // Group rows into pages of 3 rows (9 cards per page)
-  function toPages(rows,rowsPerPage){
-    const pages=[];
-    for(let i=0;i<rows.length;i+=rowsPerPage)pages.push(rows.slice(i,i+rowsPerPage));
-    return pages;
+  // Group into pages of 3 rows (9 cards per page)
+  function toPages(rows,perPage){
+    const p=[];for(let i=0;i<rows.length;i+=perPage)p.push(rows.slice(i,i+perPage));return p;
   }
-  const frontPageGroups=toPages(frontRows,3);
-  const backPageGroups=toPages(backRows,3);
+  const frontPages=toPages(frontRows,3);
 
-  function renderPageGroup(pageRows,renderFn){
-    return pageRows.map(row=>`<div style="display:flex;gap:3mm;justify-content:center;margin-bottom:3mm">${row.map(renderFn).join('')}</div>`).join('');
+  // For each front page, create a matching back page with rows reversed left-to-right
+  // so that when double-sided printed (flip on long edge), backs align with fronts
+  const backPages=frontPages.map(page=>page.map(row=>[...row].reverse()));
+
+  function renderRow(row,fn){
+    return `<div style="display:flex;gap:3mm;justify-content:center;margin-bottom:3mm">${row.map(item=>item?fn(item):`<div style="width:${CW};height:${CH}"></div>`).join('')}</div>`;
   }
 
-  const frontSheets=frontPageGroups.map((pg,i)=>{
-    const pageBreak=i>0?'page-break-before:always;break-before:page;':'';
-    return `<div class="sheet" style="${pageBreak}">\n${i===0?`<div class="section-label">Card Fronts (${active.length} cards)</div>`:''}\n${renderPageGroup(pg,cardHTML)}\n</div>`;
-  }).join('\n');
-
-  const backSheets=backPageGroups.map((pg,i)=>{
-    return `<div class="sheet" style="page-break-before:always;break-before:page;">\n${i===0?'<div class="section-label">Card Backs (print on reverse side)</div>':''}\n${renderPageGroup(pg,()=>backHTML())}\n</div>`;
-  }).join('\n');
+  // Interleave: front page 1, back page 1, front page 2, back page 2...
+  let allSheets='';
+  for(let i=0;i<frontPages.length;i++){
+    const fpb=i>0?'page-break-before:always;':'';
+    allSheets+=`<div class="page" style="${fpb}">\n<div class="spacer"></div>\n<div class="label">FRONTS \u2014 Page ${i+1} of ${frontPages.length}</div>\n${frontPages[i].map(r=>renderRow(r,cardHTML)).join('\n')}\n</div>\n`;
+    allSheets+=`<div class="page" style="page-break-before:always;">\n<div class="spacer"></div>\n<div class="label">BACKS \u2014 Page ${i+1} of ${frontPages.length} (print on reverse of previous page)</div>\n${backPages[i].map(r=>renderRow(r,()=>backHTML())).join('\n')}\n</div>\n`;
+  }
 
   const html=`<!DOCTYPE html><html><head><meta charset="UTF-8">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 <style>
-@page{size:A4;margin:0;}
+@page{size:A4;margin:12mm 10mm;}
 *{box-sizing:border-box;margin:0;padding:0;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
 body{background:#fff;font-family:'Nunito Sans',sans-serif;}
-.sheet{width:100%;display:flex;flex-direction:column;align-items:center;padding:12mm 10mm;}
-.no-print{position:fixed;top:10px;right:10px;padding:10px 20px;background:#1a1a2e;color:#e8b84b;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;cursor:pointer;z-index:100;}
-.no-print:hover{background:#2b7bb9;color:#fff;}
-.section-label{font-family:'Nunito',sans-serif;font-size:9pt;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:2px;margin:4mm 0 3mm;padding-bottom:1mm;border-bottom:0.3mm solid #ddd;text-align:center;}
-@media print{.no-print{display:none!important;}.section-label{display:none!important;}}
+.spacer{height:2mm;}
+.page{display:flex;flex-direction:column;align-items:center;}
+.label{font-family:'Nunito',sans-serif;font-size:7pt;font-weight:700;color:#bbb;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:3mm;text-align:center;}
+.instructions{max-width:600px;margin:20px auto;padding:20px 28px;background:#f8f6f0;border-radius:12px;border:1px solid #d4c9b0;font-family:'Nunito Sans',sans-serif;font-size:13px;line-height:1.7;color:#333;}
+.instructions h2{font-family:'Nunito',sans-serif;font-size:16px;margin-bottom:10px;color:#1a1a2e;}
+.instructions ol{padding-left:20px;margin:8px 0;}
+.instructions li{margin-bottom:6px;}
+.instructions .note{background:#fff;border:1px solid #d4c9b0;border-radius:8px;padding:10px 14px;margin-top:10px;font-size:12px;color:#555;}
+.no-print{text-align:center;margin:16px;}
+.no-print button{padding:12px 28px;background:#1a1a2e;color:#e8b84b;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;cursor:pointer;}
+.no-print button:hover{background:#2b7bb9;color:#fff;}
+@media print{.no-print{display:none!important;}.instructions{display:none!important;}.label{display:none!important;}.spacer{display:none!important;}}
 </style></head><body>
-<button class="no-print" onclick="window.print()">&#x1F5A8; Print Now</button>
-${frontSheets}
-${backSheets}
+<div class="instructions no-print">
+  <h2>How to Print Your Matzah-kers Deck</h2>
+  <ol>
+    <li>Click <strong>Print Now</strong> below (or Ctrl+P / Cmd+P)</li>
+    <li>Set paper size to <strong>A4</strong></li>
+    <li>Set margins to <strong>None</strong> or <strong>Minimum</strong></li>
+    <li>Check <strong>"Background graphics"</strong> (essential for colours)</li>
+    <li>Pages alternate: <strong>Fronts, Backs, Fronts, Backs...</strong></li>
+  </ol>
+  <div class="note">
+    <strong>For double-sided printing:</strong> Print all pages with "Flip on long edge" selected. The backs are already mirrored so each card back aligns with its front when cut.<br><br>
+    <strong>For single-sided printing:</strong> Print page 1 (fronts), then reinsert the paper face-down and print page 2 (backs). Repeat for each pair of pages.<br><br>
+    <strong>Cards per page:</strong> ${Math.min(active.length,9)} &bull; <strong>Total pages:</strong> ${frontPages.length*2} (${frontPages.length} front + ${frontPages.length} back) &bull; <strong>Total cards:</strong> ${active.length}
+  </div>
+</div>
+<div class="no-print"><button onclick="window.print()">&#x1F5A8; Print Now</button></div>
+${allSheets}
 </body></html>`;
 
   const blob=new Blob([html],{type:'text/html'});
