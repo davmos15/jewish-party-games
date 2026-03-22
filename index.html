@@ -682,14 +682,14 @@ function exportPrint(){
       ?`<img style="width:100%;height:18mm;object-fit:cover;border-radius:1.5mm;display:block;margin-bottom:1.5mm" src="${safeImg}" alt="">`
       :`<div style="width:100%;height:18mm;background:rgba(255,255,255,0.07);border-radius:1.5mm;margin-bottom:1.5mm;display:flex;align-items:center;justify-content:center;font-size:6.5pt;color:rgba(255,255,255,0.3)">No image</div>`):'';
     return `<div style="width:${CW};height:${CH};${bg};border-radius:3.5mm;padding:0;display:flex;flex-direction:column;border:0.35mm solid ${borderCol};box-sizing:border-box;overflow:hidden;page-break-inside:avoid;break-inside:avoid">
-  <div style="text-align:center;padding:2.5mm 3.5mm 0;font-family:'Nunito',sans-serif;font-size:5pt;font-weight:800;letter-spacing:2px;color:${catCol};text-transform:uppercase">${esc(CATL[c.cat]||'PESACH')}</div>
-  <div style="text-align:center;padding:1.5mm 3.5mm 2mm;font-family:'Nunito',sans-serif;font-size:11pt;font-weight:900;color:${titleCol};line-height:1.15">${esc(c.title)}</div>
+  <div style="text-align:center;padding:3mm 3.5mm 2mm;font-family:'Nunito',sans-serif;font-size:11pt;font-weight:900;color:${titleCol};line-height:1.15">${esc(c.title)}</div>
   <div style="height:0.35mm;background:${borderCol};margin:0 3.5mm 2mm"></div>
   <div style="padding:0 3.5mm;flex:1;display:flex;flex-direction:column;overflow:hidden">
     ${imgPart}
-    <div style="font-family:'Nunito Sans',sans-serif;font-size:7.5pt;color:${descCol};line-height:1.5;flex:1;overflow:hidden">${esc(c.desc)}</div>
+    <div style="font-family:'Nunito Sans',sans-serif;font-size:8pt;color:${descCol};line-height:1.5;flex:1;overflow:hidden;text-align:center">${esc(c.desc)}</div>
   </div>
   <div style="text-align:center;color:${dotsCol};font-size:4pt;letter-spacing:2.5px;margin:1mm 0 0.5mm">&#8226; &#8226; &#8226; &#8226; &#8226; &#8226; &#8226; &#8226;</div>
+  <div style="text-align:center;font-family:'Nunito',sans-serif;font-size:5pt;font-weight:800;letter-spacing:2px;color:${catCol};text-transform:uppercase;margin-bottom:1mm">${esc(CATL[c.cat]||'PESACH')}</div>
   <div style="display:flex;align-items:center;justify-content:center;padding-bottom:2.5mm">
     <div style="width:10mm;height:10mm;border-radius:50%;background:${PTC[c.pts]};color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;box-shadow:0 0.3mm 1.5mm rgba(0,0,0,0.2)">
       <div style="font-size:10pt;font-weight:900;line-height:1">${c.pts}</div>
@@ -751,11 +751,11 @@ body{background:#fff;font-family:'Nunito Sans',sans-serif;}
 .spacer{height:2mm;}
 .page{display:flex;flex-direction:column;align-items:center;}
 .label{font-family:'Nunito',sans-serif;font-size:7pt;font-weight:700;color:#bbb;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:3mm;text-align:center;}
-.instructions{max-width:600px;margin:20px auto;padding:20px 28px;background:#f8f6f0;border-radius:12px;border:1px solid #d4c9b0;font-family:'Nunito Sans',sans-serif;font-size:13px;line-height:1.7;color:#333;}
-.instructions h2{font-family:'Nunito',sans-serif;font-size:16px;margin-bottom:10px;color:#1a1a2e;}
-.instructions ol{padding-left:20px;margin:8px 0;}
+.instructions{max-width:600px;margin:20px auto;padding:24px 32px;background:#f8f6f0;border-radius:12px;border:1px solid #d4c9b0;font-family:'Nunito Sans',sans-serif;font-size:13px;line-height:1.7;color:#333;text-align:left;}
+.instructions h2{font-family:'Nunito',sans-serif;font-size:18px;margin-bottom:12px;color:#1a1a2e;text-align:center;}
+.instructions ol{padding-left:22px;margin:10px 0;}
 .instructions li{margin-bottom:6px;}
-.instructions .note{background:#fff;border:1px solid #d4c9b0;border-radius:8px;padding:10px 14px;margin-top:10px;font-size:12px;color:#555;}
+.instructions .note{background:#fff;border:1px solid #d4c9b0;border-radius:8px;padding:12px 16px;margin-top:12px;font-size:12px;color:#555;text-align:center;}
 .no-print{text-align:center;margin:16px;}
 .no-print button{padding:12px 28px;background:#1a1a2e;color:#e8b84b;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;cursor:pointer;}
 .no-print button:hover{background:#2b7bb9;color:#fff;}
@@ -766,7 +766,7 @@ body{background:#fff;font-family:'Nunito Sans',sans-serif;}
   <ol>
     <li>Click <strong>Print Now</strong> below (or Ctrl+P / Cmd+P)</li>
     <li>Set paper size to <strong>A4</strong></li>
-    <li>Set margins to <strong>None</strong> or <strong>Minimum</strong></li>
+    <li>Set margins to <strong>Default</strong> or <strong>Minimum</strong></li>
     <li>Check <strong>"Background graphics"</strong> (essential for colours)</li>
     <li>Pages alternate: <strong>Fronts, Backs, Fronts, Backs...</strong></li>
   </ol>
