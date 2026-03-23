@@ -108,6 +108,28 @@ body.seder-mode .catalog-only{display:none!important;}
 .sync-online{background:rgba(39,174,96,0.2);color:#27ae60;}
 .sync-offline{background:rgba(192,57,43,0.2);color:#c0392b;}
 
+/* ═══ CARD VIEWER MODAL ════════════════════════════════════ */
+.card-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:400;align-items:center;justify-content:center;}
+.card-modal-overlay.active{display:flex;}
+.card-modal{background:#fff;border-radius:16px;width:95vw;max-width:420px;max-height:90vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,0.3);display:flex;flex-direction:column;}
+.card-modal-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:2px solid var(--border);}
+.card-modal-header h3{font-family:'Nunito',sans-serif;font-weight:900;font-size:0.95rem;}
+.card-modal-tabs{display:flex;gap:0;border-bottom:2px solid var(--border);}
+.card-modal-tab{flex:1;padding:10px;text-align:center;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.8rem;cursor:pointer;border:none;background:none;color:var(--text-light);border-bottom:3px solid transparent;transition:all 0.15s;}
+.card-modal-tab.active{color:var(--blue);border-bottom-color:var(--blue);}
+.card-modal-body{padding:16px;flex:1;overflow-y:auto;}
+.card-modal-close{background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--text-light);padding:4px 8px;border-radius:6px;}
+.card-modal-close:hover{background:var(--cream);}
+
+/* Flip card */
+.flip-container{perspective:800px;width:200px;height:280px;margin:0 auto;cursor:pointer;}
+.flip-inner{position:relative;width:100%;height:100%;transition:transform 0.6s;transform-style:preserve-3d;}
+.flip-inner.flipped{transform:rotateY(180deg);}
+.flip-front,.flip-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;overflow:hidden;}
+.flip-back{transform:rotateY(180deg);}
+.flip-back img{width:100%;height:100%;object-fit:cover;border-radius:14px;}
+.flip-hint{text-align:center;margin-top:10px;font-size:0.72rem;color:var(--text-light);font-family:'Nunito',sans-serif;}
+
 /* ═══ MOBILE ═══════════════════════════════════════════════ */
 @media(max-width:768px){
   header{flex-direction:column;gap:10px;padding:10px 14px;align-items:stretch;}
@@ -217,6 +239,21 @@ body.seder-mode .catalog-only{display:none!important;}
     <div class="card-grid" id="cardGrid"></div>
   </div>
 
+<!-- Card Viewer Modal -->
+<div class="card-modal-overlay" id="cardModalOverlay" onclick="closeCardModal()">
+  <div class="card-modal" onclick="event.stopPropagation()">
+    <div class="card-modal-header">
+      <h3 id="cardModalTitle">Card</h3>
+      <button class="card-modal-close" onclick="closeCardModal()">&times;</button>
+    </div>
+    <div class="card-modal-tabs" id="cardModalTabs">
+      <button class="card-modal-tab active" onclick="switchModalTab('visual')">Visual</button>
+      <button class="card-modal-tab seder-only" onclick="switchModalTab('edit')">Edit</button>
+    </div>
+    <div class="card-modal-body" id="cardModalBody"></div>
+  </div>
+</div>
+
   <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileEdit()"></div>
   <div class="edit-panel" id="editPanel">
     <h3><span id="editTitle">Select a card to edit</span> <button class="mobile-close-btn" onclick="closeMobileEdit()">Close</button></h3>
@@ -279,6 +316,7 @@ body.seder-mode .catalog-only{display:none!important;}
       </div>
       <div class="edit-actions">
         <button class="btn btn-blue" onclick="saveCard()" style="flex:1">Save Card</button>
+        <button class="btn btn-ghost" onclick="openCardModal(selectedId)" style="flex:0;border-color:var(--border);color:var(--text)">View</button>
         <button class="btn btn-danger" onclick="deleteCard()">Delete</button>
       </div>
       <div id="saveStatus"></div>
@@ -496,7 +534,11 @@ function renderGrid(){
   vis.forEach(card=>{
     const d=document.createElement('div');
     d.className='mini-card'+(selectedId===card.id?' selected':'')+(card.culled?' culled':'')+(card.type==='picture'?' picture-card':'');
-    if(isSederMode) d.onclick=()=>selectCard(card.id);
+    if(isSederMode){
+      d.onclick=()=>{if(window.innerWidth<=768)openCardModal(card.id);else selectCard(card.id);};
+    } else {
+      d.onclick=()=>openCardModal(card.id);
+    }
 
     const titleEl=document.createElement('div');titleEl.className='mini-card-title';titleEl.textContent=card.title;
     d.appendChild(titleEl);
@@ -580,6 +622,114 @@ function setPts(n){
   editingPts=n;
   document.querySelectorAll('.pts-opt').forEach(el=>{el.className='pts-opt';if(parseInt(el.dataset.pts)===n)el.classList.add('active-'+n);});
   updatePreview();
+}
+
+// ===== CARD VIEWER MODAL =====
+function openCardModal(id){
+  const c=cards.find(x=>x.id===id);if(!c)return;
+  selectedId=id;
+  document.getElementById('cardModalTitle').textContent=c.title;
+  document.getElementById('cardModalOverlay').classList.add('active');
+  switchModalTab('visual');
+}
+
+function closeCardModal(){
+  document.getElementById('cardModalOverlay').classList.remove('active');
+  const fi=document.getElementById('flipInner');if(fi)fi.classList.remove('flipped');
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeCardModal();});
+
+function switchModalTab(tab){
+  const tabs=document.querySelectorAll('.card-modal-tab');
+  tabs.forEach(t=>t.classList.remove('active'));
+  tabs.forEach(t=>{if((tab==='visual'&&t.textContent==='Visual')||(tab==='edit'&&t.textContent==='Edit'))t.classList.add('active');});
+
+  const body=document.getElementById('cardModalBody');
+  const c=cards.find(x=>x.id===selectedId);if(!c){body.innerHTML='';return;}
+
+  if(tab==='visual'){
+    renderModalVisual(c,body);
+  } else {
+    renderModalEdit(c,body);
+  }
+}
+
+function renderModalVisual(c,container){
+  container.innerHTML='';
+  const isPic=c.type==='picture';
+
+  // Build front card
+  const front=document.createElement('div');
+  front.className='monikers-card'+(isPic?' is-picture':'');
+  front.style.cssText='width:200px;min-height:280px;margin:0;box-sizing:border-box;';
+
+  const title=document.createElement('div');title.className='mc-title';title.textContent=c.title;
+  title.style.textAlign='center';
+  front.appendChild(title);
+
+  const divider=document.createElement('div');divider.className='mc-divider';
+  front.appendChild(divider);
+
+  if(isPic){
+    const imgWrap=document.createElement('div');imgWrap.className='mc-img-wrap';
+    if(c.img){const im=document.createElement('img');im.className='mc-img';im.src=c.img;im.alt='';imgWrap.appendChild(im);}
+    else{const ph=document.createElement('div');ph.className='mc-img-ph';ph.textContent='No image';imgWrap.appendChild(ph);}
+    front.appendChild(imgWrap);
+  }
+
+  const desc=document.createElement('div');desc.className='mc-desc';desc.textContent=c.desc;
+  desc.style.textAlign='center';desc.style.fontSize='0.72rem';
+  front.appendChild(desc);
+
+  const dots=document.createElement('div');dots.className='mc-dots';dots.innerHTML='&#8226; &#8226; &#8226; &#8226; &#8226; &#8226; &#8226; &#8226;';
+  front.appendChild(dots);
+
+  const catLabel=document.createElement('div');catLabel.className='mc-cat-label';catLabel.textContent=CATLABEL[c.cat]||'PESACH EDITION';
+  front.appendChild(catLabel);
+
+  const footer=document.createElement('div');footer.className='mc-footer';
+  const ptsCircle=document.createElement('div');ptsCircle.className='mc-pts-circle';ptsCircle.style.background=PTSCOLORS[c.pts];
+  const ptsNum=document.createElement('div');ptsNum.className='mc-pts-num';ptsNum.textContent=c.pts;
+  const ptsLabel=document.createElement('div');ptsLabel.className='mc-pts-label';ptsLabel.textContent='POINTS';
+  ptsCircle.appendChild(ptsNum);ptsCircle.appendChild(ptsLabel);
+  footer.appendChild(ptsCircle);front.appendChild(footer);
+
+  // Build flip container
+  const flipContainer=document.createElement('div');flipContainer.className='flip-container';
+  const flipInner=document.createElement('div');flipInner.className='flip-inner';flipInner.id='flipInner';
+
+  const flipFront=document.createElement('div');flipFront.className='flip-front';
+  flipFront.appendChild(front);
+
+  const flipBack=document.createElement('div');flipBack.className='flip-back';
+  const backImg=document.createElement('img');
+  backImg.src=backImgDataUri||'Matzah-kers-background.png';
+  backImg.alt='Card back';
+  flipBack.appendChild(backImg);
+
+  flipInner.appendChild(flipFront);flipInner.appendChild(flipBack);
+  flipContainer.appendChild(flipInner);
+  flipContainer.onclick=function(){flipInner.classList.toggle('flipped');};
+
+  container.appendChild(flipContainer);
+
+  const hint=document.createElement('div');hint.className='flip-hint';hint.textContent='Tap card to flip';
+  container.appendChild(hint);
+}
+
+function renderModalEdit(c,container){
+  container.innerHTML='';
+  if(!isSederMode){container.innerHTML='<p style="text-align:center;color:#aaa;margin-top:20px">Start a seder to edit cards.</p>';return;}
+
+  selectCard(c.id);
+  const info=document.createElement('div');
+  info.style.cssText='text-align:center;color:var(--text-light);font-size:0.82rem;padding:20px;line-height:1.7;';
+  const btn=document.createElement('button');btn.className='btn btn-blue';btn.style.fontSize='0.85rem';
+  btn.textContent='Open Editor';
+  btn.onclick=function(){closeCardModal();openMobileEdit();};
+  const p=document.createElement('p');p.textContent='Card selected for editing.';p.style.marginBottom='14px';
+  info.appendChild(p);info.appendChild(btn);
+  container.appendChild(info);
 }
 
 function resizeImage(file,maxDim,quality,cb){
