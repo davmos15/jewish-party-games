@@ -23,4 +23,4 @@ A collaborative Pesach-themed party card game inspired by Monikers. Browse 100 c
 
 If you enjoy the game, consider supporting the project:
 
-[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-davmos15-yellow?logo=buy-me-a-coffee&logoColor=white)](https://buymeacoffee.com/davmos15)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-nadavmoskow-yellow?logo=buy-me-a-coffee&logoColor=white)](https://buymeacoffee.com/nadavmoskow)
