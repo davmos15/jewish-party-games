@@ -154,6 +154,21 @@ body.seder-mode .catalog-only{display:none!important;}
 .help-close{position:absolute;top:0;right:0;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--text-light);padding:2px 6px;border-radius:6px;}
 .help-close:hover{background:var(--cream);}
 
+/* Welcome modal (first-load popup) */
+.welcome-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:500;align-items:center;justify-content:center;padding:20px;}
+.welcome-overlay.active{display:flex;}
+.welcome-modal{background:#fff;border-radius:16px;width:95vw;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 12px 48px rgba(0,0,0,0.35);padding:32px 28px 24px;text-align:center;position:relative;}
+.welcome-modal h2{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.5rem;color:var(--text);margin-bottom:6px;}
+.welcome-modal .welcome-subtitle{font-size:0.88rem;color:var(--text-light);margin-bottom:20px;}
+.welcome-modal .welcome-cols{display:flex;gap:20px;text-align:left;flex-wrap:wrap;margin-bottom:20px;}
+.welcome-modal .welcome-col{flex:1;min-width:200px;background:var(--cream);border-radius:10px;padding:14px 16px;}
+.welcome-modal .welcome-col strong{font-family:'Nunito',sans-serif;font-size:0.88rem;color:var(--text);display:block;margin-bottom:6px;}
+.welcome-modal .welcome-col ol,.welcome-modal .welcome-col ul{padding-left:18px;margin:4px 0;font-size:0.82rem;line-height:1.7;color:var(--text-light);}
+.welcome-modal .welcome-col li{margin-bottom:3px;}
+.welcome-modal .welcome-tip{background:#fef9e7;border:1px solid #f0e0a0;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#8a7530;margin-bottom:20px;}
+.welcome-dismiss{padding:12px 36px;border-radius:10px;border:none;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;background:var(--blue);color:#fff;transition:all 0.15s;}
+.welcome-dismiss:hover{background:var(--blue-dark);transform:scale(1.03);}
+
 /* ═══ MOBILE ═══════════════════════════════════════════════ */
 @media(max-width:768px){
   header{flex-direction:column;gap:10px;padding:10px 14px;align-items:stretch;}
@@ -179,7 +194,7 @@ body.seder-mode .catalog-only{display:none!important;}
 @media print {
   @page{size:A4;margin:0;}
   html,body{background:#fff!important;margin:0;padding:0;}
-  header,.toolbar,.edit-panel,.grid-header,.cull-btn,.add-card-tile,.share-bar,.info-section,.help-banner{display:none!important;}
+  header,.toolbar,.edit-panel,.grid-header,.cull-btn,.add-card-tile,.share-bar,.info-section,.help-banner,.welcome-overlay{display:none!important;}
   .main{display:block!important;}
   .card-grid-panel{padding:0!important;}
 }
@@ -235,6 +250,38 @@ body.seder-mode .catalog-only{display:none!important;}
   </div>
   <div class="filter-group">
     <button class="btn btn-outline btn-sm" onclick="toggleHelp()" style="font-size:0.72rem;gap:4px">? How to Use</button>
+  </div>
+</div>
+
+<!-- Welcome modal (first load) -->
+<div class="welcome-overlay" id="welcomeOverlay" onclick="dismissWelcome()">
+  <div class="welcome-modal" onclick="event.stopPropagation()">
+    <h2>🎲 Welcome to Matzah-kers!</h2>
+    <p class="welcome-subtitle">A Pesach-themed party game for your Seder table</p>
+    <div class="welcome-cols">
+      <div class="welcome-col">
+        <strong>🎮 How to Play</strong>
+        <ol>
+          <li><strong>Two teams</strong>, 5 cards each player. Keep the ones you know.</li>
+          <li><strong>Round 1:</strong> Describe it (no title words!)</li>
+          <li><strong>Round 2:</strong> One word only</li>
+          <li><strong>Round 3:</strong> Charades only</li>
+          <li>Same cards all 3 rounds. Most points wins!</li>
+        </ol>
+      </div>
+      <div class="welcome-col">
+        <strong>📋 How to Use This App</strong>
+        <ul>
+          <li>Tap any card to preview &amp; flip it</li>
+          <li>Click <strong>Start Your Seder</strong> to create your own deck</li>
+          <li>Share the link with your partner for live sync</li>
+          <li>Cull, edit, add cards, or bulk-edit via CSV</li>
+          <li>Print your deck for double-sided printing</li>
+        </ul>
+      </div>
+    </div>
+    <div class="welcome-tip">💡 <strong>Tip:</strong> The same cards are used in all three rounds — clues from Round 1 help in later rounds. Pay attention!</div>
+    <button class="welcome-dismiss" onclick="dismissWelcome()">Got it — Let's Play!</button>
   </div>
 </div>
 
@@ -952,6 +999,15 @@ function toggleFilter(el){
 function toggleHelp(){
   const b=document.getElementById('helpBanner');
   b.style.display=b.style.display==='none'?'block':'none';
+}
+
+// Welcome modal — show on first visit
+function dismissWelcome(){
+  document.getElementById('welcomeOverlay').classList.remove('active');
+  localStorage.setItem('matzahkers_welcomed','1');
+}
+if(!localStorage.getItem('matzahkers_welcomed')){
+  document.getElementById('welcomeOverlay').classList.add('active');
 }
 
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
