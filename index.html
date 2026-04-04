@@ -3,1178 +3,359 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Matzah-kers: Pesach Edition</title>
+<title>Jewish Party Games</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎉</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--cream:#f5f0e8;--card-bg:#f0ebe0;--blue:#2b7bb9;--blue-dark:#1a5a8a;--gold:#c8962a;--gold-light:#e8b84b;--red:#c0392b;--green:#27ae60;--text:#1a1a2e;--text-light:#555;--border:#d4c9b0;--shadow:rgba(0,0,0,0.12);}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Nunito Sans',sans-serif;background:#e8e0d0;min-height:100vh;color:var(--text);}
-header{background:var(--text);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,0.3);}
-header h1{font-family:'Nunito',sans-serif;font-size:1.3rem;font-weight:900;color:#fff;}
-header h1 span{color:#e8b84b;}
-.header-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
-.stat-pill{background:rgba(255,255,255,0.1);color:#fff;padding:4px 12px;border-radius:20px;font-size:0.75rem;font-weight:700;font-family:'Nunito',sans-serif;}
-.btn{padding:7px 16px;border-radius:7px;border:none;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.8rem;transition:all 0.15s;white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center;}
-.btn-gold{background:var(--gold);color:#fff;}.btn-gold:hover{background:var(--gold-light);}
-.btn-blue{background:var(--blue);color:#fff;}.btn-blue:hover{background:var(--blue-dark);}
-.btn-ghost{background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);}.btn-ghost:hover{background:rgba(255,255,255,0.2);}
-.btn-outline{background:transparent;color:var(--text);border:1.5px solid var(--border);}.btn-outline:hover{background:var(--cream);}
-.btn-danger{background:var(--red);color:#fff;}
-.btn-sm{padding:5px 11px;font-size:0.74rem;}
-.toolbar{background:#fff;border-bottom:2px solid var(--border);padding:10px 28px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
-.toolbar label{font-size:0.75rem;font-weight:700;color:var(--text-light);}
-.toolbar select,.toolbar input[type=text]{padding:5px 9px;border:1.5px solid var(--border);border-radius:6px;font-family:'Nunito Sans',sans-serif;font-size:0.8rem;background:var(--cream);color:var(--text);}
-.filter-group{display:flex;align-items:center;gap:6px;}
-.cat-badge{display:inline-block;padding:3px 9px;border-radius:12px;font-size:0.68rem;font-weight:800;cursor:pointer;border:2px solid transparent;transition:all 0.15s;font-family:'Nunito',sans-serif;letter-spacing:0.5px;user-select:none;}
-.cat-badge.active{border-color:currentColor;}
-.cat-people{background:#e8f4e8;color:#27ae60;}.cat-objects{background:#fef3e2;color:#e67e22;}.cat-phrases{background:#eaf2fb;color:#2b7bb9;}.cat-fun{background:#fdf2f8;color:#8e44ad;}
-.main{display:flex;gap:0;min-height:calc(100vh - 104px);}
-.card-grid-panel{flex:1;padding:20px 24px;overflow-y:auto;}
-.grid-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
-.grid-header h2{font-family:'Nunito',sans-serif;font-size:0.9rem;font-weight:800;color:var(--text-light);text-transform:uppercase;letter-spacing:1px;}
-.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px;}
-.mini-card{background:var(--card-bg);border-radius:11px;padding:12px 11px 9px;cursor:pointer;border:2px solid transparent;transition:all 0.15s;box-shadow:0 2px 8px var(--shadow);min-height:150px;display:flex;flex-direction:column;}
-.mini-card:hover{transform:translateY(-2px);box-shadow:0 5px 18px var(--shadow);border-color:var(--gold);}
-.mini-card.selected{border-color:var(--blue);box-shadow:0 0 0 3px rgba(43,123,185,0.2);}
-.mini-card.culled{opacity:0.38;}
-.mini-card.picture-card{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);}
-.mini-card-title{font-family:'Nunito',sans-serif;font-size:0.85rem;font-weight:800;color:var(--text);margin-bottom:5px;line-height:1.2;}
-.picture-card .mini-card-title{color:#fff;}
-.mini-card-img{width:100%;height:65px;object-fit:cover;border-radius:6px;margin-bottom:5px;}
-.mini-card-img-ph{width:100%;height:65px;background:rgba(255,255,255,0.07);border-radius:6px;margin-bottom:5px;display:flex;align-items:center;justify-content:center;font-size:0.65rem;color:rgba(255,255,255,0.35);font-style:italic;}
-.mini-card-desc{font-size:0.7rem;color:var(--text-light);line-height:1.4;flex:1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;}
-.picture-card .mini-card-desc{color:rgba(255,255,255,0.55);}
-.mini-card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:7px;padding-top:6px;border-top:1px solid var(--border);}
-.picture-card .mini-card-footer{border-top-color:rgba(255,255,255,0.12);}
-.pts-badge{width:24px;height:24px;border-radius:50%;color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:0.72rem;display:flex;align-items:center;justify-content:center;}
-.pts-1{background:#27ae60;}.pts-2{background:#2b7bb9;}.pts-3{background:#c0392b;}
-.cull-btn{font-size:0.62rem;padding:2px 6px;border-radius:9px;border:1px solid var(--border);background:#fff;cursor:pointer;color:var(--text-light);font-family:'Nunito',sans-serif;font-weight:700;transition:all 0.1s;}
-.cull-btn:hover{background:var(--red);color:#fff;border-color:var(--red);}
-.culled .cull-btn{background:var(--green);color:#fff;border-color:var(--green);}
-
-/* Desktop edit panel */
-.edit-panel{width:320px;background:#fff;border-left:2px solid var(--border);padding:20px;overflow-y:auto;position:sticky;top:57px;height:calc(100vh - 57px);}
-.edit-panel h3{font-family:'Nunito',sans-serif;font-weight:900;font-size:0.95rem;color:var(--text);margin-bottom:16px;padding-bottom:9px;border-bottom:2px solid var(--border);}
-.form-group{margin-bottom:12px;}
-.form-group label{display:block;font-size:0.72rem;font-weight:800;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;}
-.form-group input,.form-group textarea,.form-group select{width:100%;padding:7px 9px;border:1.5px solid var(--border);border-radius:6px;font-family:'Nunito Sans',sans-serif;font-size:0.82rem;color:var(--text);background:var(--cream);transition:border-color 0.15s;}
-.form-group input:focus,.form-group textarea:focus,.form-group select:focus{outline:none;border-color:var(--blue);background:#fff;}
-.form-group textarea{resize:vertical;min-height:80px;}
-.pts-picker{display:flex;gap:7px;}
-.pts-opt{flex:1;padding:7px;border-radius:7px;border:2px solid var(--border);text-align:center;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.85rem;transition:all 0.15s;background:var(--cream);}
-.pts-opt.active-1{background:#27ae60;color:#fff;border-color:#27ae60;}
-.pts-opt.active-2{background:#2b7bb9;color:#fff;border-color:#2b7bb9;}
-.pts-opt.active-3{background:#c0392b;color:#fff;border-color:#c0392b;}
-.type-toggle{display:flex;gap:7px;margin-bottom:14px;}
-.type-btn{flex:1;padding:7px;border-radius:7px;border:2px solid var(--border);text-align:center;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.78rem;transition:all 0.15s;background:var(--cream);color:var(--text-light);}
-.type-btn.active{background:var(--text);color:#fff;border-color:var(--text);}
-.edit-actions{display:flex;gap:7px;margin-top:14px;}
-#saveStatus{margin-top:6px;font-size:0.7rem;text-align:center;}
-#genStatus{font-size:0.7rem;color:#888;text-align:center;margin-top:5px;min-height:16px;}
-.add-card-tile{background:rgba(43,123,185,0.06);border:2px dashed var(--blue);border-radius:11px;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;color:var(--blue);font-family:'Nunito',sans-serif;font-weight:800;font-size:0.82rem;gap:5px;transition:all 0.15s;}
-.add-card-tile:hover{background:rgba(43,123,185,0.12);}
-
-/* Desktop flip card in panel */
-.panel-flip-wrap{margin:14px 0;text-align:center;}
-.flip-container{perspective:800px;width:200px;height:280px;margin:0 auto;cursor:pointer;}
-.flip-inner{position:relative;width:100%;height:100%;transition:transform 0.6s;transform-style:preserve-3d;}
-.flip-inner.flipped{transform:rotateY(180deg);}
-.flip-front,.flip-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;overflow:hidden;}
-.flip-back{transform:rotateY(180deg);}
-.flip-back img{width:100%;height:100%;object-fit:cover;border-radius:14px;}
-.flip-hint{text-align:center;margin-top:8px;font-size:0.68rem;color:var(--text-light);font-family:'Nunito',sans-serif;}
-
-/* Card preview styles */
-.monikers-card{width:200px;min-height:280px;background:var(--card-bg);border-radius:14px;padding:14px 12px 10px;box-shadow:0 3px 14px rgba(0,0,0,0.15);display:flex;flex-direction:column;border:1px solid rgba(0,0,0,0.06);}
-.monikers-card.is-picture{background:linear-gradient(160deg,#1a1a2e 0%,#16213e 100%);}
-.mc-title{font-family:'Nunito',sans-serif;font-size:0.92rem;font-weight:800;color:var(--text);margin-bottom:8px;line-height:1.2;text-align:center;}
-.is-picture .mc-title{color:#fff;}
-.mc-divider{height:1px;background:var(--border);margin-bottom:8px;}
-.is-picture .mc-divider{background:rgba(255,255,255,0.2);}
-.mc-img-wrap{margin-bottom:8px;}
-.mc-img{width:100%;height:80px;object-fit:cover;border-radius:6px;display:block;}
-.mc-img-ph{width:100%;height:80px;background:rgba(255,255,255,0.07);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.62rem;color:rgba(255,255,255,0.35);text-align:center;padding:4px;}
-.mc-desc{font-size:0.72rem;color:#333;line-height:1.5;flex:1;text-align:center;}
-.is-picture .mc-desc{color:rgba(255,255,255,0.7);}
-.mc-dots{text-align:center;margin:8px 0 5px;color:var(--border);font-size:0.55rem;letter-spacing:3px;}
-.is-picture .mc-dots{color:rgba(255,255,255,0.18);}
-.mc-cat-label{text-align:center;font-family:'Nunito',sans-serif;font-size:0.55rem;font-weight:800;letter-spacing:1.5px;color:var(--blue);text-transform:uppercase;margin-bottom:7px;}
-.is-picture .mc-cat-label{color:rgba(200,150,42,0.9);}
-.mc-footer{display:flex;align-items:center;justify-content:center;margin-top:2px;}
-.mc-pts-circle{width:36px;height:36px;border-radius:50%;background:var(--blue);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;}
-.mc-pts-num{font-size:0.95rem;font-weight:900;line-height:1;}
-.mc-pts-label{font-size:0.4rem;font-weight:700;letter-spacing:0.5px;opacity:0.85;}
-
-/* Mode-based visibility */
-body.catalog-mode .edit-panel{display:none;}
-body.catalog-mode .cull-btn{display:none!important;}
-body.catalog-mode .add-card-tile{display:none;}
-body.catalog-mode .seder-only{display:none!important;}
-body.seder-mode .catalog-only{display:none!important;}
-
-/* Share link bar */
-.share-bar{background:rgba(43,123,185,0.08);border-bottom:2px solid var(--border);padding:8px 28px;display:flex;align-items:center;gap:10px;font-size:0.8rem;font-family:'Nunito',sans-serif;}
-.share-bar code{background:#fff;padding:3px 10px;border-radius:5px;font-size:0.78rem;border:1px solid var(--border);user-select:all;color:var(--blue);font-weight:700;}
-.share-bar .copy-msg{color:var(--green);font-weight:700;font-size:0.72rem;}
-.sync-status{font-size:0.65rem;padding:3px 8px;border-radius:10px;font-weight:700;font-family:'Nunito',sans-serif;}
-.sync-online{background:rgba(39,174,96,0.2);color:#27ae60;}
-.sync-offline{background:rgba(192,57,43,0.2);color:#c0392b;}
-
-/* Card modal (mobile full-screen, desktop for catalog) */
-.card-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:400;align-items:center;justify-content:center;}
-.card-modal-overlay.active{display:flex;}
-.card-modal{background:#fff;border-radius:16px;width:95vw;max-width:460px;max-height:90vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,0.3);display:flex;flex-direction:column;}
-.card-modal-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:2px solid var(--border);}
-.card-modal-header h3{font-family:'Nunito',sans-serif;font-weight:900;font-size:0.95rem;}
-.card-modal-tabs{display:flex;gap:0;border-bottom:2px solid var(--border);}
-.card-modal-tab{flex:1;padding:10px;text-align:center;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.8rem;cursor:pointer;border:none;background:none;color:var(--text-light);border-bottom:3px solid transparent;transition:all 0.15s;}
-.card-modal-tab.active{color:var(--blue);border-bottom-color:var(--blue);}
-.card-modal-body{padding:16px;flex:1;overflow-y:auto;}
-.card-modal-close{background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--text-light);padding:4px 8px;border-radius:6px;}
-.card-modal-close:hover{background:var(--cream);}
-
-/* Info section on main page */
-.info-section{max-width:800px;margin:0 auto;padding:24px;}
-.info-box{background:#fff;border-radius:14px;padding:24px 28px;margin-bottom:16px;box-shadow:0 2px 8px var(--shadow);border:1px solid var(--border);}
-.info-box h2{font-family:'Nunito',sans-serif;font-size:1.1rem;font-weight:900;color:var(--text);margin-bottom:10px;}
-.info-box p,.info-box li{font-size:0.88rem;line-height:1.7;color:var(--text-light);}
-.info-box ol,.info-box ul{padding-left:22px;margin:8px 0;}
-.info-box li{margin-bottom:4px;}
-.info-box strong{color:var(--text);}
-.info-links{display:flex;gap:12px;margin-top:14px;flex-wrap:wrap;}
-.info-links a{text-decoration:none;}
-
-/* Help banner */
-.help-banner{background:#fff;border-bottom:2px solid var(--border);padding:14px 28px;}
-.help-inner{max-width:900px;margin:0 auto;display:flex;gap:24px;position:relative;flex-wrap:wrap;}
-.help-col{flex:1;min-width:240px;font-size:0.82rem;line-height:1.7;color:var(--text-light);}
-.help-col strong{color:var(--text);font-family:'Nunito',sans-serif;display:block;margin-bottom:4px;}
-.help-col ol,.help-col ul{padding-left:18px;margin:4px 0;}
-.help-col li{margin-bottom:2px;}
-.help-close{position:absolute;top:0;right:0;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--text-light);padding:2px 6px;border-radius:6px;}
-.help-close:hover{background:var(--cream);}
-
-/* Welcome modal (first-load popup) */
-.welcome-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:500;align-items:center;justify-content:center;padding:20px;}
-.welcome-overlay.active{display:flex;}
-.welcome-modal{background:#fff;border-radius:16px;width:95vw;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 12px 48px rgba(0,0,0,0.35);padding:32px 28px 24px;text-align:center;position:relative;}
-.welcome-modal h2{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.5rem;color:var(--text);margin-bottom:6px;}
-.welcome-modal .welcome-subtitle{font-size:0.88rem;color:var(--text-light);margin-bottom:20px;}
-.welcome-modal .welcome-cols{display:flex;gap:20px;text-align:left;flex-wrap:wrap;margin-bottom:20px;}
-.welcome-modal .welcome-col{flex:1;min-width:200px;background:var(--cream);border-radius:10px;padding:14px 16px;}
-.welcome-modal .welcome-col strong{font-family:'Nunito',sans-serif;font-size:0.88rem;color:var(--text);display:block;margin-bottom:6px;}
-.welcome-modal .welcome-col ol,.welcome-modal .welcome-col ul{padding-left:18px;margin:4px 0;font-size:0.82rem;line-height:1.7;color:var(--text-light);}
-.welcome-modal .welcome-col li{margin-bottom:3px;}
-.welcome-modal .welcome-tip{background:#fef9e7;border:1px solid #f0e0a0;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#8a7530;margin-bottom:20px;}
-.welcome-dismiss{padding:12px 36px;border-radius:10px;border:none;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;background:var(--blue);color:#fff;transition:all 0.15s;}
-.welcome-dismiss:hover{background:var(--blue-dark);transform:scale(1.03);}
-
-/* ═══ MOBILE ═══════════════════════════════════════════════ */
-@media(max-width:768px){
-  header{flex-direction:column;gap:10px;padding:10px 14px;align-items:stretch;}
-  header h1{font-size:1.1rem;text-align:center;}
-  .header-actions{justify-content:center;gap:6px;}
-  .btn-sm{padding:5px 8px;font-size:0.68rem;}
-  .share-bar{flex-direction:column;padding:8px 14px;gap:6px;text-align:center;}
-  .share-bar code{font-size:0.65rem;word-break:break-all;padding:4px 8px;}
-  .toolbar{padding:8px 14px;gap:6px;}
-  .filter-group{flex-wrap:wrap;}
-  .main{flex-direction:column;}
-  .card-grid-panel{padding:12px 10px;}
-  .card-grid{grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:10px;}
-  .card-back-preview img{width:90px;height:126px;}
-  .edit-panel{display:none!important;}
-  .grid-header{flex-wrap:wrap;gap:8px;}
-  .card-modal-overlay{align-items:flex-start;justify-content:center;}
-  .card-modal{max-width:100vw;width:100vw;height:100vh;max-height:100vh;border-radius:0;}
-  .info-section{padding:14px;}
+:root {
+  --cream: #e8e0d0;
+  --cream-light: #f5f0e8;
+  --navy: #1a1a2e;
+  --gold: #c8962a;
+  --gold-light: #e8b84b;
+  --text: #1a1a2e;
+  --text-light: #555;
+  --shadow: rgba(0,0,0,0.12);
 }
 
-/* Print */
-@media print {
-  @page{size:A4;margin:0;}
-  html,body{background:#fff!important;margin:0;padding:0;}
-  header,.toolbar,.edit-panel,.grid-header,.cull-btn,.add-card-tile,.share-bar,.info-section,.help-banner,.welcome-overlay{display:none!important;}
-  .main{display:block!important;}
-  .card-grid-panel{padding:0!important;}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Nunito Sans', sans-serif;
+  background: var(--cream);
+  min-height: 100vh;
+  color: var(--text);
+}
+
+/* ---- Header ---- */
+header {
+  background: var(--navy);
+  padding: 48px 28px 52px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse at 50% 120%, rgba(200,150,42,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+header h1 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 2.6rem;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+header h1 span {
+  color: var(--gold-light);
+}
+
+header p {
+  color: rgba(255,255,255,0.65);
+  font-size: 1.1rem;
+  font-weight: 600;
+  position: relative;
+}
+
+/* ---- Main ---- */
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 40px 20px 60px;
+}
+
+/* ---- Festival Tiles ---- */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 56px;
+}
+
+.tile {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px var(--shadow), 0 1px 4px rgba(0,0,0,0.06);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.tile:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.16), 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.tile-header {
+  padding: 28px 24px 20px;
+  text-align: center;
+  position: relative;
+}
+
+.tile-emoji {
+  font-size: 3.2rem;
+  display: block;
+  margin-bottom: 12px;
+  line-height: 1;
+}
+
+.tile-name {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.tile-subtitle {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  opacity: 0.55;
+}
+
+.tile-body {
+  padding: 0 24px 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.tile-desc {
+  font-size: 0.92rem;
+  color: var(--text-light);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex: 1;
+}
+
+.tile-btn {
+  display: block;
+  width: 100%;
+  padding: 12px 0;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #fff;
+  cursor: pointer;
+  transition: filter 0.15s;
+  text-align: center;
+  text-decoration: none;
+  letter-spacing: 0.3px;
+}
+
+.tile-btn:hover {
+  filter: brightness(1.1);
+}
+
+.tile-pesach .tile-header { background: linear-gradient(135deg, #fef9f0 0%, #fdf3e0 100%); }
+.tile-pesach .tile-btn { background: #c8962a; }
+
+.tile-shavuot .tile-header { background: linear-gradient(135deg, #f0f5fe 0%, #e6effe 100%); }
+.tile-shavuot .tile-btn { background: #2b7bb9; }
+
+.tile-custom .tile-header { background: linear-gradient(135deg, #f3f0fe 0%, #ece6fe 100%); }
+.tile-custom .tile-btn { background: #6c5ce7; }
+
+/* ---- How to Play ---- */
+.how-section {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px var(--shadow);
+  padding: 36px 32px;
+  margin-bottom: 40px;
+}
+
+.how-section h2 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin-bottom: 24px;
+  text-align: center;
+  color: var(--text);
+}
+
+.rounds {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.round {
+  text-align: center;
+  padding: 20px 16px;
+  border-radius: 12px;
+  background: var(--cream-light);
+}
+
+.round-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: #fff;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.round h3 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.round p {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  line-height: 1.5;
+}
+
+/* ---- Footer ---- */
+footer {
+  text-align: center;
+  padding: 32px 20px 40px;
+  color: var(--text-light);
+  font-size: 0.85rem;
+}
+
+footer a {
+  color: var(--gold);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+footer .footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 640px) {
+  header { padding: 36px 20px 40px; }
+  header h1 { font-size: 2rem; }
+  header p { font-size: 0.95rem; }
+  main { padding: 28px 16px 48px; }
+  .tiles { gap: 18px; }
+  .how-section { padding: 28px 20px; }
+  .rounds { gap: 14px; }
 }
 </style>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 </head>
 <body>
 
 <header>
-  <h1>🍷 Matzah-kers: <span>Pesach Edition</span></h1>
-  <div class="header-actions">
-    <div class="stat-pill" id="statPill">0 cards</div>
-    <button class="btn btn-gold btn-sm catalog-only" onclick="startNewSeder()">🎉 Start Your Seder</button>
-    <button class="btn btn-ghost btn-sm seder-only" onclick="toggleCulled()">Toggle Culled</button>
-    <button class="btn btn-gold btn-sm seder-only" onclick="exportPrint()">🖨 Print Deck</button>
-    <button class="btn btn-ghost btn-sm seder-only" onclick="exportCSV()">📥 Export CSV</button>
-    <button class="btn btn-ghost btn-sm seder-only" onclick="document.getElementById('csvImport').click()">📤 Import CSV</button>
-    <input type="file" id="csvImport" accept=".csv" onchange="importCSV(this)" style="display:none">
-    <span class="sync-status sync-offline seder-only" id="syncStatus">Connecting...</span>
-    <button class="btn btn-ghost btn-sm seder-only" onclick="resetCards()">Reset Defaults</button>
-    <a href="https://buymeacoffee.com/nadavmoskow" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">☕ Support</a>
-  </div>
+  <h1>🎉 Jewish <span>Party Games</span></h1>
+  <p>Choose your festival edition</p>
 </header>
 
-<div class="share-bar seder-only" id="shareBar" style="display:none">
-  <span style="font-weight:700;color:var(--text-light)">Share this link with your seder partner:</span>
-  <code id="shareLink"></code>
-  <button class="btn btn-blue btn-sm" onclick="copyShareLink()">Copy Link</button>
-  <span class="copy-msg" id="copyMsg"></span>
-</div>
-
-<div class="toolbar">
-  <div class="filter-group">
-    <label>Category:</label>
-    <span class="cat-badge cat-people active" data-cat="People" onclick="toggleFilter(this)">People</span>
-    <span class="cat-badge cat-objects active" data-cat="Objects" onclick="toggleFilter(this)">Objects</span>
-    <span class="cat-badge cat-phrases active" data-cat="Phrases" onclick="toggleFilter(this)">Phrases</span>
-    <span class="cat-badge cat-fun active" data-cat="Fun" onclick="toggleFilter(this)">Fun</span>
-  </div>
-  <div class="filter-group">
-    <label>Points:</label>
-    <select id="ptsFilter" onchange="renderGrid()">
-      <option value="all">All</option>
-      <option value="1">1 pt</option>
-      <option value="2">2 pts</option>
-      <option value="3">3 pts</option>
-    </select>
-  </div>
-  <div class="filter-group">
-    <label>Search:</label>
-    <input type="text" id="searchBox" placeholder="Search..." oninput="renderGrid()" style="width:140px">
-  </div>
-  <div class="filter-group">
-    <button class="btn btn-outline btn-sm" onclick="toggleHelp()" style="font-size:0.72rem;gap:4px">? How to Use</button>
-  </div>
-</div>
-
-<!-- Welcome modal (first load) -->
-<div class="welcome-overlay" id="welcomeOverlay" onclick="dismissWelcome()">
-  <div class="welcome-modal" onclick="event.stopPropagation()">
-    <h2>🎲 Welcome to Matzah-kers!</h2>
-    <p class="welcome-subtitle">A Pesach-themed party game for your Seder table</p>
-    <div class="welcome-cols">
-      <div class="welcome-col">
-        <strong>🎮 How to Play</strong>
-        <ol>
-          <li><strong>Two teams</strong>, 5 cards each player. Keep the ones you know.</li>
-          <li><strong>Round 1:</strong> Describe it (no title words!)</li>
-          <li><strong>Round 2:</strong> One word only</li>
-          <li><strong>Round 3:</strong> Charades only</li>
-          <li>Same cards all 3 rounds. Most points wins!</li>
-        </ol>
+<main>
+  <div class="tiles">
+    <a class="tile tile-pesach" href="./pesach/">
+      <div class="tile-header">
+        <span class="tile-emoji">🍷</span>
+        <div class="tile-name">Matzah-kers</div>
+        <div class="tile-subtitle">Pesach Edition</div>
       </div>
-      <div class="welcome-col">
-        <strong>📋 How to Use This App</strong>
-        <ul>
-          <li>Tap any card to preview &amp; flip it</li>
-          <li>Click <strong>Start Your Seder</strong> to create your own deck</li>
-          <li>Share the link with your partner for live sync</li>
-          <li>Cull, edit, add cards, or bulk-edit via CSV</li>
-          <li>Print your deck for double-sided printing</li>
-        </ul>
+      <div class="tile-body">
+        <p class="tile-desc">A Pesach-themed party game for your Seder table. 119 pre-made cards about the Exodus, the Seder, and everything in between.</p>
+        <span class="tile-btn">Play Now</span>
       </div>
-    </div>
-    <div class="welcome-tip">💡 <strong>Tip:</strong> The same cards are used in all three rounds — clues from Round 1 help in later rounds. Pay attention!</div>
-    <button class="welcome-dismiss" onclick="dismissWelcome()">Got it — Let's Play!</button>
-  </div>
-</div>
+    </a>
 
-<!-- Collapsible help banner -->
-<div class="help-banner" id="helpBanner" style="display:none">
-  <div class="help-inner">
-    <div class="help-col">
-      <strong>🎲 How to Play</strong>
-      <ol>
-        <li><strong>Two teams</strong>, 5 cards each player. Keep the ones you know.</li>
-        <li><strong>Round 1:</strong> Describe it (no title words!)</li>
-        <li><strong>Round 2:</strong> One word only</li>
-        <li><strong>Round 3:</strong> Charades only</li>
-        <li>Same cards all 3 rounds. Most points wins!</li>
-      </ol>
-    </div>
-    <div class="help-col">
-      <strong>📋 How to Use This App</strong>
-      <ul>
-        <li>Tap any card to preview &amp; flip it</li>
-        <li>Click <strong>Start Your Seder</strong> to create your own deck</li>
-        <li>Share the link with your partner for live sync</li>
-        <li>Cull, edit, add cards, or bulk-edit via CSV export/import</li>
-        <li>Print your deck with fronts &amp; backs for double-sided printing</li>
-      </ul>
-    </div>
-    <button class="help-close" onclick="toggleHelp()">&times;</button>
-  </div>
-</div>
+    <a class="tile tile-shavuot" href="./shavuot/">
+      <div class="tile-header">
+        <span class="tile-emoji">📜</span>
+        <div class="tile-name">Torah-kers</div>
+        <div class="tile-subtitle">Shavuot Edition</div>
+      </div>
+      <div class="tile-body">
+        <p class="tile-desc">A Shavuot-themed party game celebrating Matan Torah. 50 cards about Torah, Ruth, cheesecake, and staying up all night.</p>
+        <span class="tile-btn">Play Now</span>
+      </div>
+    </a>
 
-<div class="main">
-  <div class="card-grid-panel">
-    <div class="grid-header">
-      <h2 id="gridLabel">All Cards</h2>
-      <button class="btn btn-blue btn-sm seder-only" onclick="addNewCard()">+ Add Card</button>
-    </div>
-    <div class="card-back-preview" style="margin-bottom:18px;text-align:center">
-      <div style="font-family:'Nunito',sans-serif;font-size:0.72rem;font-weight:800;color:var(--text-light);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Card Back</div>
-      <img src="Matzah-kers-background.png" alt="Card back" style="width:120px;height:168px;object-fit:cover;border-radius:8px;box-shadow:0 3px 14px rgba(0,0,0,0.18);border:1px solid var(--border)">
-    </div>
-    <div class="card-grid" id="cardGrid"></div>
+    <a class="tile tile-custom" href="./custom/">
+      <div class="tile-header">
+        <span class="tile-emoji">🎲</span>
+        <div class="tile-name">Party Cards</div>
+        <div class="tile-subtitle">Custom Edition</div>
+      </div>
+      <div class="tile-body">
+        <p class="tile-desc">Create your own party card game from scratch. No default cards - complete creative freedom for any occasion.</p>
+        <span class="tile-btn">Play Now</span>
+      </div>
+    </a>
   </div>
 
-  <!-- Desktop edit panel with flip card -->
-  <div class="edit-panel" id="editPanel">
-    <h3><span id="editTitle">Select a card to edit</span></h3>
-    <div id="editForm" style="display:none">
-      <div class="type-toggle">
-        <div class="type-btn active" id="typeBtnText" onclick="setCardType('text')">Text Card</div>
-        <div class="type-btn" id="typeBtnPicture" onclick="setCardType('picture')">Picture Card</div>
+  <div class="how-section">
+    <h2>How to Play</h2>
+    <div class="rounds">
+      <div class="round">
+        <div class="round-number">1</div>
+        <h3>Describe It</h3>
+        <p>Use as many words as you like to describe the card to your team. No saying the word itself!</p>
       </div>
-      <div class="form-group">
-        <label>Title</label>
-        <input type="text" id="eTitle" oninput="updatePreview()">
+      <div class="round">
+        <div class="round-number">2</div>
+        <h3>One Word</h3>
+        <p>Same cards, but now you can only say a single word as a clue. Choose wisely!</p>
       </div>
-      <div class="form-group">
-        <label>Description</label>
-        <textarea id="eDesc" oninput="updatePreview()"></textarea>
+      <div class="round">
+        <div class="round-number">3</div>
+        <h3>Act It Out</h3>
+        <p>No words allowed! Use charades to get your team to guess the card.</p>
       </div>
-      <div class="form-group">
-        <label>Category</label>
-        <select id="eCat" onchange="updatePreview()">
-          <option value="People">People</option>
-          <option value="Objects">Objects &amp; Seder Items</option>
-          <option value="Phrases">Phrases &amp; Concepts</option>
-          <option value="Fun">Fun &amp; Silly</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Points (Difficulty)</label>
-        <div class="pts-picker">
-          <div class="pts-opt" data-pts="1" onclick="setPts(1)">1<br><small style="font-size:0.5rem;font-weight:600">Easy</small></div>
-          <div class="pts-opt" data-pts="2" onclick="setPts(2)">2<br><small style="font-size:0.5rem;font-weight:600">Medium</small></div>
-          <div class="pts-opt" data-pts="3" onclick="setPts(3)">3<br><small style="font-size:0.5rem;font-weight:600">Hard</small></div>
-        </div>
-      </div>
-      <div id="pictureControls" style="display:none">
-        <div class="form-group">
-          <label>Upload Image</label>
-          <input type="file" id="eImgUpload" accept="image/*" onchange="handleImageUpload(this)" style="font-size:0.78rem">
-        </div>
-        <button class="btn btn-danger btn-sm" id="removeImgBtn" onclick="removeImage()" style="display:none;margin-top:4px">Remove Image</button>
-        <div id="genStatus"></div>
-      </div>
-      <div class="edit-actions">
-        <button class="btn btn-blue" onclick="saveCard()" style="flex:1">Save Card</button>
-        <button class="btn btn-danger" onclick="deleteCard()">Delete</button>
-      </div>
-      <div id="saveStatus"></div>
-      <!-- Desktop flip card preview -->
-      <div class="panel-flip-wrap" id="panelFlipWrap"></div>
-    </div>
-    <div id="editPh" style="color:#aaa;font-size:0.82rem;text-align:center;margin-top:40px;line-height:1.9">
-      Click any card to edit it.
     </div>
   </div>
-</div>
+</main>
 
-<!-- Card modal (mobile: full editing; catalog: view only) -->
-<div class="card-modal-overlay" id="cardModalOverlay" onclick="closeCardModal()">
-  <div class="card-modal" onclick="event.stopPropagation()">
-    <div class="card-modal-header">
-      <h3 id="cardModalTitle">Card</h3>
-      <button class="card-modal-close" onclick="closeCardModal()">&times;</button>
-    </div>
-    <div class="card-modal-tabs" id="cardModalTabs">
-      <button class="card-modal-tab active" data-tab="visual" onclick="switchModalTab('visual')">Visual</button>
-      <button class="card-modal-tab seder-only" data-tab="edit" onclick="switchModalTab('edit')">Edit</button>
-    </div>
-    <div class="card-modal-body" id="cardModalBody"></div>
+<footer>
+  <div class="footer-links">
+    <a href="https://buymeacoffee.com/nadavmoskow" target="_blank" rel="noopener">☕ Buy Me a Coffee</a>
+    <a href="mailto:moskownadav@gmail.com">✉ Send Feedback</a>
   </div>
-</div>
-
-<!-- Info section below cards on main page -->
-<div class="info-section" id="infoSection">
-  <div class="info-box">
-    <h2>🎲 How to Play Matzah-kers</h2>
-    <ol>
-      <li><strong>Split into two teams.</strong> Each team should have at least 2 players.</li>
-      <li><strong>Deal cards.</strong> Each player gets 5 cards from the deck. Secretly look at them and choose which ones to keep (discard any you don't know).</li>
-      <li><strong>Round 1 &mdash; Describe It:</strong> Give any clues you want (words, sounds, gestures) to get your team to guess. You just can't say any word in the title.</li>
-      <li><strong>Round 2 &mdash; One Word:</strong> Same cards, reshuffled. This time you can only say <strong>one single word</strong> as a clue.</li>
-      <li><strong>Round 3 &mdash; Act It Out:</strong> Same cards again. No words at all &mdash; only charades!</li>
-      <li><strong>Scoring:</strong> Each card is worth its point value (1, 2, or 3). Team with the most points after all three rounds wins!</li>
-    </ol>
-    <p style="margin-top:10px;font-size:0.82rem;color:var(--text-light)"><strong>Tip:</strong> The fun of the game is that all three rounds use the same cards &mdash; so clues from Round 1 help in later rounds. Pay attention!</p>
-  </div>
-  <div class="info-box">
-    <h2>📋 How to Use This App</h2>
-    <ul>
-      <li><strong>Browse</strong> all cards in the catalog above. Tap any card to preview it and flip to see the back.</li>
-      <li><strong>Start Your Seder</strong> to create your own deck with a unique shareable link.</li>
-      <li><strong>Share the link</strong> with your seder partner &mdash; edits sync in real-time.</li>
-      <li><strong>Cull cards</strong> you don't want, add your own, or upload images for picture cards.</li>
-      <li><strong>Export/Import CSV</strong> to bulk-edit your deck in a spreadsheet.</li>
-      <li><strong>Print your deck</strong> with the Print button &mdash; includes fronts and backs for double-sided printing.</li>
-    </ul>
-  </div>
-  <div class="info-box" style="text-align:center;">
-    <h2>💬 Get in Touch</h2>
-    <p>Enjoying Matzah-kers? Have feedback or ideas? We'd love to hear from you!</p>
-    <div class="info-links" style="justify-content:center;margin-top:12px;">
-      <a href="https://buymeacoffee.com/nadavmoskow" target="_blank" rel="noopener" class="btn btn-gold">☕ Buy Me a Coffee</a>
-      <a href="mailto:moskownadav@gmail.com" class="btn btn-outline" style="gap:4px">✉ Send Feedback</a>
-    </div>
-  </div>
-</div>
+  <p>Made with ❤️ for Jewish game nights everywhere</p>
+</footer>
 
 <script>
-const PTSCOLORS={1:'#27ae60',2:'#2b7bb9',3:'#c0392b'};
-const CATLABEL={People:'PEOPLE',Objects:'OBJECTS & SEDER',Phrases:'PHRASES & CONCEPTS',Fun:'FUN & SILLY'};
-const CATCLASS={People:'cat-people',Objects:'cat-objects',Phrases:'cat-phrases',Fun:'cat-fun'};
-
-const DEFAULT_CARDS=[
-  {id:1,title:"Moshe Rabbeinu",cat:"People",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The greatest prophet in Jewish history, who led the Israelites out of Egyptian slavery. He received the Torah at Sinai and is the central figure of the Pesach story \u2014 yet his name appears only once in the Haggadah."},
-  {id:2,title:"Pharaoh",cat:"People",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The king of ancient Egypt whose repeated refusal to free the Israelites brought ten devastating acts upon his kingdom. His declaration \u2014 'Who is Hashem that I should listen to Him?' \u2014 opens the Exodus narrative."},
-  {id:3,title:"Miriam HaNeviah",cat:"People",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The prophetess and sister of Moshe who watched over him as an infant on the Nile. After the sea was divided, she led the women in song and dance with tambourines \u2014 one of the most celebrated moments in the Exodus."},
-  {id:4,title:"Yocheved",cat:"People",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"The mother of Moshe, Aharon, and Miriam. When Pharaoh decreed all newborn Hebrew boys be drowned, she placed infant Moshe in a waterproofed basket on the Nile and saved his life."},
-  {id:5,title:"Nachshon ben Aminadav",cat:"People",pts:3,type:"text",img:null,imgPrompt:"",culled:false,desc:"Prince of the tribe of Yehudah who, according to the Midrash, jumped into the Red Sea before it split \u2014 wading in up to his nose until the waters parted. The definitive symbol of faith in action."},
-  {id:6,title:"Batya (Bityah)",cat:"People",pts:3,type:"text",img:null,imgPrompt:"",culled:false,desc:"Pharaoh's daughter who drew infant Moshe from the Nile and raised him in the royal palace. Her name \u2014 meaning 'daughter of God' \u2014 was given by Hashem as a divine reward for her compassion."},
-  {id:7,title:"Aharon HaKohen",cat:"People",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"Moshe's older brother and the first Kohen Gadol. Appointed as Moshe's spokesman before Pharaoh, he performed several of the devastating acts and became the ancestor of all kohanim throughout history."},
-  {id:8,title:"Rabban Gamliel",cat:"People",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"The Nasi of the Sanhedrin who ruled that every person at the Seder must explain Pesach, matzah, and maror \u2014 or has not fulfilled the obligation. His ruling is central to the Haggadah's Maggid section."},
-  {id:9,title:"Rabbi Akiva",cat:"People",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"One of the greatest Tannaim, present at the all-night Seder in Bnei Brak. He taught that love of one's neighbour is the foundational principle of the Torah. Ultimately martyred by the Romans."},
-  {id:10,title:"Elazar ben Azaryah",cat:"People",pts:3,type:"text",img:null,imgPrompt:"",culled:false,desc:"The Tanna who could not resolve whether the Exodus must be mentioned at night \u2014 until a drashah settled it. Appointed head of the Sanhedrin at a young age, he famously said he was 'like a man of seventy.'"},
-  {id:11,title:"Zipporah",cat:"People",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"Moshe's wife and daughter of Yitro. She plays a crucial, enigmatic role at a wayside inn where she circumcises their son, seemingly saving Moshe's life from a divine threat on the journey back to Egypt."},
-  {id:12,title:"Yitro",cat:"People",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"Moshe's father-in-law, a Midianite priest. He sheltered Moshe after he fled Egypt and later advised him to delegate judicial authority \u2014 perhaps the Torah's first management consultant."},
-  {id:13,title:"Afikoman",cat:"Objects",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The piece of matzah hidden at the start of the Seder and held ransom by children for a prize. Nothing may be eaten after it, ensuring it is the last taste of the night. Its etymology remains debated by scholars."},
-  {id:14,title:"Maror",cat:"Objects",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"Eaten at the Seder to recall the harshness of Egyptian slavery. Romaine lettuce or horseradish are most common. Listed in the Torah alongside the Pesach offering as a required element."},
-  {id:15,title:"Charoset",cat:"Objects",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"A sweet paste of fruits, nuts, and wine representing the building material used by Jewish slaves. Ashkenazic versions use apples and walnuts; Sephardic versions often include dates, figs, and spices."},
-  {id:16,title:"Karpas",cat:"Objects",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"A vegetable \u2014 often a potato \u2014 dipped in salty water at the start of the Seder. The salty water represents tears of slavery. The act of dipping prompts one of the Mah Nishtanah questions."},
-  {id:17,title:"Zeroa",cat:"Objects",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"A roasted limb placed on the Seder's ceremonial dish, recalling the Korban Pesach. It is not eaten but serves as a visual symbol. Vegetarians sometimes substitute a roasted beet."},
-  {id:18,title:"Beitzah",cat:"Objects",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"A roasted or hard-boiled item on the Seder's ceremonial dish, symbolising the festival offering brought to the Temple. Some interpret it as a symbol of mourning for the Temple's destruction."},
-  {id:19,title:"Ke'arah",cat:"Objects",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"The Seder plate itself, holding six symbolic items: zeroa, beitzah, maror, charoset, karpas, and chazeret. Its arrangement is debated by kabbalists; the Arizal's layout is most widely followed."},
-  {id:20,title:"Kos Eliyahu",cat:"Objects",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"A fifth vessel of wine filled but not drunk, left for the great prophet. The door is opened during Shfoch Chamatcha. Its origin lies in an unresolved Talmudic debate about whether five servings are required."},
-  {id:21,title:"Matzah Shmurah",cat:"Objects",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"A specially supervised flatbread protected from harvest (or kneading) against contact with water that could cause rising. Many Ashkenazim use round hand-made varieties specifically for the Seder mitzvah."},
-  {id:22,title:"Staff of Moshe",cat:"Objects",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"The miraculous wooden rod used by the great leader and his brother to bring the ten devastating acts and part the Red Sea. The Mishna in Avot lists it among items created on the eve of the first Shabbat at twilight."},
-  {id:23,title:"Korech",cat:"Objects",pts:3,type:"text",img:null,imgPrompt:"",culled:false,desc:"The Hillel combination \u2014 unleavened flatbread and bitter vegetable eaten together \u2014 based on Hillel's practice of fulfilling the verse 'with unleavened bread and bitterness they shall eat it' in its most literal sense."},
-  {id:24,title:"Dayenu",cat:"Phrases",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The beloved Seder hymn listing fifteen acts of divine kindness during the Exodus, each declared sufficient on its own. Its structure teaches gratitude for every individual blessing."},
-  {id:25,title:"Mah Nishtanah",cat:"Phrases",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The opening questions asked by the youngest child at the Seder, designed to prompt the telling of the Exodus story. The Talmud rules even two scholars must ask each other."},
-  {id:26,title:"Ha Lachma Anya",cat:"Phrases",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"The Aramaic declaration opening Maggid, inviting all who are in need to come and eat. Its use of Aramaic is debated; one view is it was said so the angels would not understand and object."},
-  {id:27,title:"B'chol Dor VaDor",cat:"Phrases",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"'In every generation' \u2014 the obligation for each person at the Seder to personally identify with the Exodus, as if they themselves left Egypt. Derived from the verse 'you shall tell your child on that day.'"},
-  {id:28,title:"Avadim Hayinu",cat:"Phrases",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The opening of the main Haggadah narrative. Per Rav in the Talmud, beginning with shame before praise is the correct structure for the retelling of the departure from servitude."},
-  {id:29,title:"Vehi She'amda",cat:"Phrases",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"'And this is what has stood for our fathers' \u2014 declaring that in every generation enemies rise to destroy the Jewish people, yet God saves them. Often the moment the Seder falls into quiet reflection."},
-  {id:30,title:"L'Shanah Haba'ah biYerushalayim",cat:"Phrases",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"'Next year in Jerusalem' \u2014 the closing declaration of the Seder, expressing hope for redemption. Also said at the end of Yom Kippur. Those in Jerusalem say 'Next year in the rebuilt Jerusalem.'"},
-  {id:31,title:"Eser HaMakkot",cat:"Phrases",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The Ten Plagues \u2014 blood, frogs, lice, wild animals, pestilence, boils, hail, locusts, darkness, and death of the firstborn. A drop of wine is removed at the Seder for each one, reducing joy at others' suffering."},
-  {id:32,title:"Sippur Yetziat Mitzrayim",cat:"Phrases",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"The Torah obligation to recount the departure from servitude on Pesach night. The Rambam rules it applies even alone. The more one expands the narrative, the more praiseworthy."},
-  {id:33,title:"Leil Shimurim",cat:"Phrases",pts:3,type:"text",img:null,imgPrompt:"",culled:false,desc:"The Torah's description of the Exodus evening (Shemot 12:42). The Midrash teaches it is also a time of divine safeguarding, which is why no Shema al HaMita is recited on Seder evening."},
-  {id:34,title:"Arba Leshonot Geulah",cat:"Phrases",pts:3,type:"text",img:null,imgPrompt:"",culled:false,desc:"The expressions of deliverance in Shemot 6:6-7 \u2014 'I will take you out, save you, restore you, take you as My people' \u2014 the source for the vessels of wine consumed at the Seder."},
-  {id:35,title:"The Afikoman Ransom",cat:"Fun",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The Seder's annual hostage negotiation, in which children who have stolen the hidden matzah refuse to return it until adults agree to their demands. Prizes promised under duress have historically included bicycles."},
-  {id:36,title:"Falling Asleep Before Nirtzah",cat:"Fun",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The near-universal Seder experience in which at least one participant loses consciousness somewhere between Shulchan Orech and Hallel, only to wake up insisting they were simply resting their eyes."},
-  {id:37,title:"Chad Gadya",cat:"Fun",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The cumulative nursery rhyme about a young animal purchased for two coins, set upon by ever-more-powerful forces. Kabbalists interpret it as an allegory for all of world history leading to the Messianic era."},
-  {id:38,title:"Echad Mi Yodea",cat:"Fun",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"'Who Knows One?' \u2014 the counting song racing through Jewish numbers from one to thirteen. Tests memory, lung capacity, and exactly how fast the leader can sing by the time verse thirteen arrives."},
-  {id:39,title:"The Seder That Goes Too Long",cat:"Fun",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"A recurring phenomenon in which the host's commitment to a 'full Haggadah' collides with guests' biological needs and the soup cooling. Distinguished by how many people checked their watches during Maggid."},
-  {id:40,title:"Kitniyot Wars",cat:"Fun",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"The annual Ashkenazic-Sephardic diplomatic incident in which certain grains and legume-adjacent foods become flashpoints. A committee of Ashkenazic Rabbis technically permitted them in 2016 \u2014 a ruling ignored by most grandmothers."},
-  {id:41,title:"Bedikat Chametz",cat:"Fun",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"The ceremonial hunt for forbidden crumbs by candlelight with a feather and wooden spoon \u2014 a combination seemingly designed by someone who enjoyed both ancient tradition and a mild but present fire hazard."},
-  {id:42,title:"The Bitter Herb Eating Contest",cat:"Fun",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"An unofficial Seder competition \u2014 unrecorded in the Shulchan Aruch \u2014 in which participants attempt to eat an heroic amount of freshly grated horseradish without visible tears. Points deducted for reaching for wine."},
-  {id:43,title:"Reclining to the Left",cat:"Fun",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"The halachic requirement to lean in a specific direction while eating and drinking at the Seder as a sign of freedom. In practice, this is performed via a right-angle tilt using a cushion borrowed from the living room sofa."},
-  {id:44,title:"Ten Plagues Finger Dip",cat:"Fun",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The custom of removing a drop of wine for each of the devastating acts visited upon Egypt, symbolising diminished joy at others' suffering. The only moment at most Seders when red wine reliably ends up on the white tablecloth."},
-  {id:45,title:"Elijah's Cup Left Untouched",cat:"Fun",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The annual Seder debate over whether the wine level dropped slightly after the door was opened. Families divide: the faithful (definitely lower), the sceptics (physics), and those too full to engage."},
-  {id:46,title:"Selling Chametz",cat:"Fun",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"The legal transaction in which forbidden grain products are sold to a non-Jew before the holiday and repurchased after. Performed via a rabbi's power of attorney, it may be the world's most universally anticipated contractual reversal."},
-  {id:47,title:"Matzah Ball Density Dispute",cat:"Fun",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The fiercely contested debate between the floaty dumpling (light, airy, achieved through beaten whites) and the sinker (dense, heavy). The correct position is a matter of family inheritance. Marriages have been tested."},
-  {id:48,title:"The Haggadah Collector",cat:"Fun",pts:3,type:"text",img:null,imgPrompt:"",culled:false,desc:"A fixture at some Seders: the uncle with seventeen Haggadot stacked at his place, cross-referencing at every paragraph. Associated with Seders ending at 2am and soup that has long achieved room temperature."},
-  {id:49,title:"Biur Chametz",cat:"Fun",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"The incineration of forbidden grain products on the morning before Pesach \u2014 one of the rare halachic obligations fulfilled with actual fire. Children universally enjoy this mitzvah. Local fire codes have a complicated relationship with it."},
-  {id:50,title:"Shir HaShirim at the Seder",cat:"Fun",pts:3,type:"text",img:null,imgPrompt:"",culled:false,desc:"The custom of reading Shlomo's romantic poetry on Pesach, whose overt themes are reinterpreted as an allegory for God and Israel \u2014 a reframing that reliably confuses first-time readers."},
-  {id:51,title:"The Splitting of the Sea",cat:"People",pts:1,type:"picture",img:null,imgPrompt:"",culled:false,desc:"The miraculous dividing of the Yam Suf as the Israelites fled Egypt. The Midrash teaches twelve separate paths opened \u2014 one for each tribe \u2014 with walls of water transparent as glass."},
-  {id:52,title:"The Burning Bush",cat:"People",pts:2,type:"picture",img:null,imgPrompt:"",culled:false,desc:"The site where Hashem first spoke to the great leader at Har Chorev and commanded him to return to Egypt. The shrub was aflame but was not consumed \u2014 a symbol of the Jewish people persisting through every persecution."},
-  {id:53,title:"The Seder Plate",cat:"Objects",pts:1,type:"picture",img:null,imgPrompt:"",culled:false,desc:"The ceremonial dish holding six symbolic foods: a roasted limb, a roasted item, a bitter vegetable, a sweet paste, a dipped vegetable, and chazeret. Its arrangement follows kabbalistic traditions, most famously that of the Arizal."},
-  {id:54,title:"The Ten Plagues",cat:"Fun",pts:1,type:"picture",img:null,imgPrompt:"",culled:false,desc:"The devastating acts visited upon Egypt: river of red, amphibians, lice, wild animals, pestilence, boils, hail, locusts, impenetrable gloom, and death of the firstborn. A drop of wine is spilled at the Seder for each one."},
-  {id:55,title:"The Fifth Son",cat:"Fun",pts:3,type:"text",img:null,imgPrompt:"",culled:false,desc:"The hypothetical child who didn't make it into the Haggadah. Variously identified as the one who left, the one on their phone, or the one who showed up late and is still eating soup during Hallel."},
-  {id:56,title:"Pesach Hotel Guest",cat:"Fun",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"A species found annually in Miami, Cancun, and various Alpine resorts. Distinguished by the all-inclusive wristband, the afternoon tea-room complaint, and the confident assertion that the program is not as good as last year."},
-  {id:57,title:"The Gebrokts Truther",cat:"Fun",pts:3,type:"text",img:null,imgPrompt:"",culled:false,desc:"A person who will not allow matzah to touch liquid under any circumstances \u2014 including soup, saliva, and ambient humidity. Can spot a matzah ball from across the room and will make their feelings known."},
-  {id:58,title:"Pharaoh's Hardened Heart",cat:"Phrases",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"The theological puzzle at the centre of the Exodus. God stiffens Pharaoh's resolve \u2014 raising the question of free will that has occupied commentators for millennia and undergraduates for a single essay."},
-  {id:59,title:"The Wicked Son",cat:"People",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"One of the Haggadah's four children. He asks 'What is this service to you?' \u2014 excluding himself. The Haggadah's suggested response \u2014 blunt his teeth \u2014 has launched a thousand sermons on inclusive parenting."},
-  {id:60,title:"The Son Who Doesn't Know How to Ask",cat:"People",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"The fourth child of the Haggadah. Silent, possibly confused, possibly just done. The instruction is simply to open the conversation for him \u2014 a surprisingly modern pedagogical insight from a 2,000-year-old text."},
-  {id:61,title:"Cleaning Behind the Fridge",cat:"Fun",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The annual Pesach scrubbing ritual that somehow escalates from 'removing leavened crumbs' to 'pulling out every appliance and confronting remnants from a geological era.' Often reveals objects thought permanently lost."},
-  {id:62,title:"Matzah Dust Everywhere",cat:"Fun",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The fine particulate residue that coats every surface, pocket, and keyboard within 24 hours of Pesach beginning. Scientists have yet to explain how it penetrates sealed containers. It persists until Shavuot."},
-  {id:63,title:"The Cousin Who Brings Kitniyot",cat:"Fun",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"A Sephardi relative who arrives at the Ashkenazi Seder with a grain-based side dish, producing a brief constitutional crisis. Resolution depends entirely on whose grandmother is present and how recently she was consulted."},
-  {id:64,title:"Dipping Twice",cat:"Phrases",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"On all other nights we don't even submerge once \u2014 but tonight, we do it two times. The first (vegetable in salty water) prompts the Mah Nishtanah. The second (bitter vegetable in sweet paste) provides sweet relief."},
-  {id:65,title:"Pesach Shopping List",cat:"Fun",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"A document of extraordinary length and cost, featuring seven types of Pesachdik oil, four brands of potato starch, and the quiet resignation of whoever is holding the receipt."},
-  {id:66,title:"The Matzah Cemented to the Oven",cat:"Fun",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The inevitable outcome of reheating shmurah flatbread. It bonds to the rack at a molecular level, creating an archaeological artifact that requires tools to remove. Some families simply buy a new rack."},
-  {id:67,title:"Dam \u2014 Blood",cat:"Objects",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The first of the devastating acts. The Nile and all waters turned red. The aquatic life perished, the water was undrinkable, and the Egyptians had to dig around the river for fresh water. Pharaoh, unmoved, went back inside."},
-  {id:68,title:"Tzfardea \u2014 Frogs",cat:"Objects",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The second of the devastating acts. The Torah says 'the amphibian came up' \u2014 singular. The Midrash debates: was it one enormous creature, or one that multiplied when struck? Either way, they were everywhere."},
-  {id:69,title:"Choshech \u2014 Darkness",cat:"Objects",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"The ninth of the devastating acts. A gloom so thick it was tangible \u2014 the Midrash says Egyptians could not move. Meanwhile, the Israelites had light in their dwellings. Lasted three days."},
-  {id:70,title:"The 11th Plague: Pesach Prices",cat:"Fun",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"An unofficial addition to the Haggadah. Manifests annually in the kosher-for-holiday aisle, where a box of cake meal costs roughly what a family sedan did in 1987."},
-  {id:71,title:"Moshe's Speech Impediment",cat:"People",pts:3,type:"text",img:null,imgPrompt:"",culled:false,desc:"Moshe tells God he is 'heavy of mouth and heavy of tongue.' Various Midrashim explain: he burned his tongue on hot coals as a child, testing Pharaoh's suspicion. God's solution: your brother Aharon will speak for you."},
-  {id:72,title:"Shifra and Puah",cat:"People",pts:3,type:"text",img:null,imgPrompt:"",culled:false,desc:"The two Hebrew midwives who defied Pharaoh's decree to kill newborn boys. When questioned, they claimed Hebrew women gave birth too quickly for them to arrive. History's first recorded act of civil disobedience."},
-  {id:73,title:"The Person Reading Every Commentary",cat:"Fun",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"An individual at the Seder table who insists on sharing insights from Abarbanel, the Vilna Gaon, and a podcast they heard last week. Unaware the children left the table 20 minutes ago."},
-  {id:74,title:"Leaning the Wrong Way",cat:"Fun",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The moment someone leans right instead of left during the four cups, triggering a brief halachic intervention from across the table. The intervener has been waiting all year for this opportunity."},
-  {id:75,title:"The Haggadah with Transliteration",cat:"Fun",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"A text with phonetic English rendering of the Hebrew, enabling full participation by guests who cannot read Hebrew but can pronounce 'Baruch' as 'Ba-ROOKH' with impressive confidence."},
-  {id:76,title:"Dayenu \u2014 But Was It Actually Enough?",cat:"Fun",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"The philosophical tension at the heart of a beloved Seder hymn: 'If He had brought us to Sinai but not given us the Torah \u2014 it would have been sufficient.' Really? The hymn teaches gratitude. The footnotes teach theology."},
-  {id:77,title:"Matzah Pizza",cat:"Fun",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The holiday culinary innovation of putting sauce and cheese on flat supervised bread and calling it a classic Italian dish. Structurally it is a cracker with toppings. It shatters on the first bite."},
-  {id:78,title:"Eliyahu HaNavi",cat:"People",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The great figure who never died but ascended to heaven in a chariot of fire. He visits every Seder, every brit milah, and will herald the Messiah. The busiest personality in Jewish tradition."},
-  {id:79,title:"The Dog That Ate the Chametz",cat:"Fun",pts:3,type:"text",img:null,imgPrompt:"",culled:false,desc:"A classic halachic case study: if an animal eats forbidden crumbs you sold, who is liable? Also, the actual experience of a family pet discovering an unsupervised box of crackers approximately 90 seconds before the holiday begins."},
-  {id:80,title:"Betzet Yisrael MiMitzrayim",cat:"Phrases",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"'When Israel went out of Egypt' \u2014 the opening of Hallel's Psalm 114. The sea saw and fled, the Jordan turned back, the mountains skipped like rams. One of the most vivid poems in all of Tanach."},
-  {id:81,title:"Kol Dichfin",cat:"Phrases",pts:3,type:"text",img:null,imgPrompt:"",culled:false,desc:"'All who are hungry, come and eat' \u2014 the Aramaic invitation at the start of Maggid. Technically issued after the door is already closed and the guests are already seated. The Talmud notes the irony."},
-  {id:82,title:"The Four Cups of Wine",cat:"Objects",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"Corresponding to expressions of deliverance, these must be drunk while reclining. By the third serving, most participants are reclining involuntarily. By the final one, the hymns become noticeably more enthusiastic."},
-  {id:83,title:"The Pesach Kitchen Takeover",cat:"Fun",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The annual transformation in which every surface is covered in foil, every utensil is swapped, and the food-prep area becomes an unrecognisable landscape. Someone immediately touches something."},
-  {id:84,title:"The Uncle Arguing with the Haggadah",cat:"Fun",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"A recurring Seder character who disagrees with the text itself. 'Actually, the simple son isn't simple at all.' 'I think the wicked son makes a fair point.' Will not be hurried through Maggid."},
-  {id:85,title:"Pesach Candy",cat:"Fun",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"A genre of confectionery defined primarily by what it cannot contain. The result: fruit jellies of uncertain provenance, coconut macaroons, and chocolate that tastes as if it is commemorating something."},
-  {id:86,title:"Miriam's Well",cat:"Objects",pts:3,type:"text",img:null,imgPrompt:"",culled:false,desc:"A miraculous source of water that, according to the Talmud, accompanied the Israelites through the desert in a certain prophetess's merit. When she died, it vanished and the people thirsted."},
-  {id:87,title:"Spilling Wine on the White Tablecloth",cat:"Fun",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"A Seder night certainty with a probability approaching 1.0. Usually occurs during the Ten Plagues recitation, adding an unplanned eleventh plague."},
-  {id:88,title:"The Pesach Brisket",cat:"Fun",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"A cut of meat whose holiday preparation varies by family but whose emotional significance does not. Recipes are inherited, never written down, and always described as 'not as good as Bubby's.'"},
-  {id:89,title:"Letting the Guests Read",cat:"Fun",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The Seder leader's democratic gesture of assigning paragraphs around the table, producing a rich tapestry of reading speeds, pronunciation styles, and the inevitable moment when someone reads the wrong paragraph."},
-  {id:90,title:"Kashering the Sink",cat:"Fun",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"The procedure of pouring boiling water over every surface of a basin to render it kosher for the holiday. Involves a large pot, an element of danger, and the distinct feeling that one is performing a chemistry experiment."},
-  {id:91,title:"Acharon Shel Pesach",cat:"Phrases",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"The final day of the holiday, when the parting of the waters is read. For many, it marks the beginning of the countdown to leavened goods. A certain Italian-style food shop reports a surge in orders approximately 45 seconds after nightfall."},
-  {id:92,title:"Stealing vs. Hiding the Afikoman",cat:"Fun",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"The great minhag divide: in some families the children steal it from the leader; in others, the leader hides it and children search. Both systems produce the same result: protracted negotiations."},
-  {id:93,title:"Pharaoh's Chariots",cat:"Objects",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"Six hundred elite horse-drawn vehicles plus the entire Egyptian army, deployed to recapture the Israelites. All swallowed by the waters. The Midrash says the Egyptians' own horses refused to enter but were compelled."},
-  {id:94,title:"The Baby Who Stays Up",cat:"Fun",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"A child under four who, against all laws of biology, remains alert through the entire Seder, sustained by grape juice, curiosity, and the specific energy that comes from being allowed to stay up far past bedtime."},
-  {id:95,title:"Counting the Omer",cat:"Phrases",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"The 49-day tally from Pesach to Shavuot, beginning on the second evening. Most people remember for approximately 11 days before forgetting one evening. A spiritual marathon with a high dropout rate."},
-  {id:96,title:"Gefilte Fish",cat:"Objects",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"A ground seafood preparation served at Ashkenazi Seders, available in the homemade or jarred varieties. The jarred version sits in a jelly whose origin nobody questions. Opinions are strongly held and never revised."},
-  {id:97,title:"The Simple Son",cat:"People",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The third of the Haggadah's four children. He asks directly: 'What is this?' The answer is equally direct: 'With a strong hand God took us out of Egypt.' Sometimes the most straightforward question gets the best answer."},
-  {id:98,title:"Yachatz \u2014 Breaking the Middle Matzah",cat:"Objects",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"The moment early in the Seder when the leader snaps the centre of three flat supervised breads, wraps the larger piece as the afikoman, and attempts to hide it without the children noticing. The children always notice."},
-  {id:99,title:"The Post-Pesach Chametz Binge",cat:"Fun",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The phenomenon occurring at the end of the holiday, when bread, pasta, and cereal are consumed with an intensity normally reserved for people who have been stranded."},
-  {id:100,title:"Arami Oved Avi",cat:"Phrases",pts:3,type:"text",img:null,imgPrompt:"",culled:false,desc:"The passage from Devarim that forms the backbone of the Maggid section. The Haggadah unpacks it word by word in a textual analysis so thorough it would satisfy a doctoral committee."},
-  {id:101,title:"The Magic Number",cat:"Fun",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"Everything at the Seder comes in multiples: three matzot, ten plagues, fifteen steps, and one very long night. The obsession with numbering is either deeply symbolic or evidence that the rabbis loved lists."},
-  {id:103,title:"Dasan & Aviram",cat:"People",pts:3,type:"text",img:null,imgPrompt:"",culled:false,desc:"The two Israelites who constantly opposed Moshe's leadership. They quarreled, informed on him to Pharaoh, complained about the manna, and joined Korach's rebellion. The original contrarians."},
-  {id:104,title:"Calev ben Yefuneh",cat:"People",pts:3,type:"text",img:null,imgPrompt:"",culled:false,desc:"One of only two people from the generation of the Exodus to enter the Land of Israel. He stood firm when the other scouts gave a negative report, declaring 'We can surely go up and take possession of it.'"},
-  {id:105,title:"Eldad & Meidad",cat:"People",pts:3,type:"text",img:null,imgPrompt:"",culled:false,desc:"Two elders who prophesied in the camp rather than at the Tent of Meeting. When Yehoshua wanted Moshe to stop them, Moshe famously replied, 'Would that all of Hashem's people were prophets!'"},
-  {id:106,title:"The Erev Rav",cat:"People",pts:3,type:"text",img:null,imgPrompt:"",culled:false,desc:"The 'mixed multitude' of non-Israelites who joined the Exodus. Tradition blames them for instigating the Golden Calf. Their status \u2014 sincere converts or opportunistic tagalongs \u2014 remains debated."},
-  {id:107,title:"Hallel",cat:"Phrases",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The collection of psalms of praise recited on festivals. On Seder night it is split: half before the meal, half after. The Talmud records that the Levites sang it while the Pesach offering was being prepared."},
-  {id:110,title:"Ma Nishtana",cat:"Phrases",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The youngest child's recitation of four contrasts between this evening and all others. Its melody is among the most recognised in Jewish liturgy. Stage fright at age four is a rite of passage."},
-  {id:111,title:"Heseiba",cat:"Phrases",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"The practice of leaning at the Seder table as a symbol of aristocratic freedom. In ancient times the wealthy reclined on couches; today we lean on pillows, often precariously."},
-  {id:112,title:"Tzafun",cat:"Objects",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"The step in the Seder when the hidden piece of matzah is retrieved and eaten as dessert. Its name means 'hidden,' and its recovery can involve extensive negotiation with whichever child has it."},
-  {id:114,title:"Maggid",cat:"Phrases",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The longest section of the Seder \u2014 the retelling of the Exodus story. It moves from shame to praise, includes the Four Questions, and is meant to feel as if one personally experienced the liberation."},
-  {id:115,title:"Blood on the Doorposts",cat:"Objects",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"The sign placed by the Israelites on the night of the final plague so their homes would be passed over. It is the origin of the holiday's English name and one of the Torah's most vivid images."},
-  {id:116,title:"Leaving in Haste",cat:"Phrases",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The Israelites departed so quickly that their dough had no time to rise \u2014 the reason we eat matzah. The Torah emphasises the urgency: they were driven out and could not delay."},
-  {id:117,title:"Korban Pesach",cat:"Objects",pts:2,type:"text",img:null,imgPrompt:"",culled:false,desc:"The lamb or goat offering brought on the 14th of Nisan and eaten that night with matzah and bitter herbs. It had to be consumed in groups, roasted whole, and none could remain until morning."},
-  {id:119,title:"Splitting of the Sea",cat:"Phrases",pts:1,type:"text",img:null,imgPrompt:"",culled:false,desc:"The miracle that allowed Bnei Yisrael to escape the Egyptian army."}
-];
-
-// ===== MODE DETECTION =====
-const urlParams = new URLSearchParams(window.location.search);
-const sederId = urlParams.get('seder');
-const isSederMode = !!sederId;
-document.body.classList.add(isSederMode ? 'seder-mode' : 'catalog-mode');
-
-// ===== FIREBASE CONFIG =====
-const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyDLOpr--S_XauJfBz9pIxcMI3onuwHY_jY",
-  authDomain: "monikers-pesach.firebaseapp.com",
-  databaseURL: "https://monikers-pesach-default-rtdb.firebaseio.com",
-  projectId: "monikers-pesach",
-  storageBucket: "monikers-pesach.firebasestorage.app",
-  messagingSenderId: "221937114178",
-  appId: "1:221937114178:web:c570c358ac2996b553e1db"
-};
-
-let db=null, dbRef=null, firebaseReady=false;
-try{
-  firebase.initializeApp(FIREBASE_CONFIG);
-  db=firebase.database();
-  if(isSederMode) dbRef=db.ref('seders/'+sederId+'/cards');
-  firebaseReady=true;
-}catch(e){console.warn('Firebase init failed',e);}
-
-// ===== PERSISTENCE =====
-function saveCards(){
-  if(!isSederMode) return;
-  localStorage.setItem('matzahkers_seder_'+sederId, JSON.stringify(cards));
-  if(firebaseReady && dbRef) dbRef.set(cards);
-}
-
-function loadCardsLocal(){
-  if(isSederMode){
-    try{const s=localStorage.getItem('matzahkers_seder_'+sederId);if(s)return JSON.parse(s);}catch(e){}
+// Backward compatibility: redirect ?seder=<id> to pesach edition
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var sederId = params.get('seder');
+  if (sederId) {
+    window.location.replace('./pesach/?seder=' + encodeURIComponent(sederId));
   }
-  return JSON.parse(JSON.stringify(DEFAULT_CARDS));
-}
-
-let cards=loadCardsLocal();
-let selectedId=null, editingPts=2, editingType='text';
-let activeFilters=new Set(["People","Objects","Phrases","Fun"]);
-let showCulled=true;
-
-// ===== CARD BACK IMAGE =====
-let backImgDataUri='';
-fetch('Matzah-kers-background.png')
-  .then(r=>{if(r.ok)return r.blob();throw 0;})
-  .then(b=>{const reader=new FileReader();reader.onload=()=>{backImgDataUri=reader.result;};reader.readAsDataURL(b);})
-  .catch(()=>{});
-
-// ===== SEDER MANAGEMENT =====
-function generateSederId(){
-  const chars='abcdefghijklmnopqrstuvwxyz0123456789';
-  const arr=new Uint8Array(12);crypto.getRandomValues(arr);
-  let id='';for(let i=0;i<12;i++)id+=chars[arr[i]%chars.length];
-  return id;
-}
-
-function startNewSeder(){
-  const id=generateSederId();
-  db.ref('seders/'+id+'/cards').set(JSON.parse(JSON.stringify(DEFAULT_CARDS))).then(()=>{
-    window.location.href=window.location.pathname+'?seder='+id;
-  });
-}
-
-function copyShareLink(){
-  const link=window.location.origin+window.location.pathname+'?seder='+sederId;
-  navigator.clipboard.writeText(link).then(()=>{
-    const msg=document.getElementById('copyMsg');
-    msg.textContent='Copied!';setTimeout(()=>msg.textContent='',2000);
-  });
-}
-
-// ===== CSV EXPORT / IMPORT =====
-function exportCSV(){
-  let csv='id,title,category,points,type,description\n';
-  cards.forEach(c=>{
-    const t='"'+String(c.title).replace(/"/g,'""')+'"';
-    const d='"'+String(c.desc).replace(/"/g,'""')+'"';
-    csv+=c.id+','+t+','+c.cat+','+c.pts+','+c.type+','+d+'\n';
-  });
-  const blob=new Blob([csv],{type:'text/csv'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
-  a.download='matzahkers-cards.csv';a.click();
-}
-
-function importCSV(input){
-  if(!input.files[0])return;
-  const reader=new FileReader();
-  reader.onload=function(e){
-    try{
-      const lines=e.target.result.split('\n').filter(l=>l.trim());
-      if(lines.length<2){alert('CSV is empty.');return;}
-      const newCards=[];
-      for(let i=1;i<lines.length;i++){
-        const fields=parseCSVLine(lines[i]);
-        if(fields.length<6)continue;
-        newCards.push({
-          id:parseInt(fields[0])||i,
-          title:fields[1],cat:fields[2],
-          pts:parseInt(fields[3])||1,
-          type:fields[4]||'text',
-          img:null,imgPrompt:'',culled:false,
-          desc:fields[5]
-        });
-      }
-      if(newCards.length===0){alert('No valid cards found.');return;}
-      // Preserve images from existing cards by matching ID
-      newCards.forEach(nc=>{
-        const existing=cards.find(c=>c.id===nc.id);
-        if(existing&&existing.img)nc.img=existing.img;
-      });
-      cards=newCards;
-      selectedId=null;
-      document.getElementById('editForm').style.display='none';
-      document.getElementById('editPh').style.display='block';
-      document.getElementById('editTitle').textContent='Select a card to edit';
-      saveCards();renderGrid();
-      alert('Imported '+cards.length+' cards!');
-    }catch(err){alert('Could not parse CSV: '+err.message);}
-  };
-  reader.readAsText(input.files[0]);
-  input.value='';
-}
-
-function parseCSVLine(line){
-  const result=[];let field='';let inQuotes=false;
-  for(let i=0;i<line.length;i++){
-    const c=line[i];
-    if(c==='"'){if(inQuotes&&line[i+1]==='"'){field+='"';i++;}else{inQuotes=!inQuotes;}}
-    else if(c===','&&!inQuotes){result.push(field);field='';}
-    else{field+=c;}
-  }
-  result.push(field);return result;
-}
-
-// ===== RENDER =====
-function renderGrid(){
-  const grid=document.getElementById('cardGrid');
-  const pf=document.getElementById('ptsFilter').value;
-  const s=document.getElementById('searchBox').value.toLowerCase();
-  let vis=cards.filter(c=>{
-    if(!showCulled&&c.culled)return false;
-    if(!activeFilters.has(c.cat))return false;
-    if(pf!=='all'&&c.pts!==parseInt(pf))return false;
-    if(s&&!c.title.toLowerCase().includes(s)&&!c.desc.toLowerCase().includes(s))return false;
-    return true;
-  });
-  document.getElementById('statPill').textContent=cards.filter(c=>!c.culled).length+(isSederMode?' in deck':' cards');
-  document.getElementById('gridLabel').textContent=vis.length+' cards';
-  grid.innerHTML='';
-  vis.forEach(card=>{
-    const d=document.createElement('div');
-    d.className='mini-card'+(selectedId===card.id?' selected':'')+(card.culled?' culled':'')+(card.type==='picture'?' picture-card':'');
-    // All card clicks open the modal
-    d.onclick=()=>{
-      if(isSederMode&&window.innerWidth>768) selectCard(card.id);
-      else openCardModal(card.id);
-    };
-
-    const titleEl=document.createElement('div');titleEl.className='mini-card-title';titleEl.textContent=card.title;
-    d.appendChild(titleEl);
-
-    if(card.type==='picture'){
-      if(card.img){const im=document.createElement('img');im.className='mini-card-img';im.src=card.img;im.alt='';d.appendChild(im);}
-      else{const ph=document.createElement('div');ph.className='mini-card-img-ph';ph.textContent='No image yet';d.appendChild(ph);}
-    }
-
-    const descEl=document.createElement('div');descEl.className='mini-card-desc';descEl.textContent=card.desc;
-    d.appendChild(descEl);
-
-    const footer=document.createElement('div');footer.className='mini-card-footer';
-    const ptsBadge=document.createElement('div');ptsBadge.className='pts-badge pts-'+card.pts;ptsBadge.textContent=card.pts;
-    footer.appendChild(ptsBadge);
-    const catBadge=document.createElement('span');catBadge.className='cat-badge '+(CATCLASS[card.cat]||'');catBadge.style.cssText='font-size:0.58rem;padding:2px 5px';catBadge.textContent=card.cat;
-    footer.appendChild(catBadge);
-    if(isSederMode){const cb=document.createElement('button');cb.className='cull-btn';cb.textContent=card.culled?'Restore':'Cull';cb.onclick=function(e){e.stopPropagation();toggleCull(card.id);};footer.appendChild(cb);}
-    d.appendChild(footer);
-    grid.appendChild(d);
-  });
-  if(isSederMode){
-    const add=document.createElement('div');add.className='add-card-tile';add.onclick=addNewCard;
-    add.innerHTML='<span style="font-size:1.6rem">+</span>Add Card';
-    grid.appendChild(add);
-  }
-}
-
-// ===== DESKTOP EDIT PANEL =====
-function selectCard(id){
-  if(!isSederMode) return;
-  selectedId=id;const c=cards.find(x=>x.id===id);if(!c)return;
-  document.getElementById('editTitle').textContent='Edit Card';
-  document.getElementById('editForm').style.display='block';
-  document.getElementById('editPh').style.display='none';
-  document.getElementById('eTitle').value=c.title;
-  document.getElementById('eDesc').value=c.desc;
-  document.getElementById('eCat').value=c.cat;
-  document.getElementById('eImgUpload').value='';
-  document.getElementById('removeImgBtn').style.display=c.img?'inline-block':'none';
-  editingPts=c.pts;editingType=c.type||'text';
-  setCardType(editingType,true);
-  document.querySelectorAll('.pts-opt').forEach(el=>{el.className='pts-opt';if(parseInt(el.dataset.pts)===editingPts)el.classList.add('active-'+editingPts);});
-  updatePreview();
-  renderPanelFlip(c);
-  renderGrid();
-}
-
-function setCardType(t,silent=false){
-  editingType=t;
-  document.getElementById('typeBtnText').className='type-btn'+(t==='text'?' active':'');
-  document.getElementById('typeBtnPicture').className='type-btn'+(t==='picture'?' active':'');
-  document.getElementById('pictureControls').style.display=t==='picture'?'block':'none';
-  if(!silent)updatePreview();
-}
-
-function updatePreview(){
-  // Update panel flip card if visible
-  const c=cards.find(x=>x.id===selectedId);
-  if(c) renderPanelFlip(c);
-}
-
-function setPts(n){
-  editingPts=n;
-  document.querySelectorAll('.pts-opt').forEach(el=>{el.className='pts-opt';if(parseInt(el.dataset.pts)===n)el.classList.add('active-'+n);});
-  updatePreview();
-}
-
-// ===== FLIP CARD BUILDER =====
-function buildFlipCard(c, container, useLiveForm){
-  container.innerHTML='';
-  const isPic=c.type==='picture';
-  const et=useLiveForm?document.getElementById('eTitle'):null;
-  const ed=useLiveForm?document.getElementById('eDesc'):null;
-  const ec=useLiveForm?document.getElementById('eCat'):null;
-  const liveTitle=(et&&et.value)?et.value:c.title;
-  const liveDesc=(ed&&ed.value)?ed.value:c.desc;
-  const liveCat=(ec&&ec.value)?ec.value:c.cat;
-  const livePts=useLiveForm?editingPts:c.pts;
-
-  const front=document.createElement('div');
-  front.className='monikers-card'+(isPic?' is-picture':'');
-  front.style.cssText='width:200px;min-height:280px;margin:0;box-sizing:border-box;';
-
-  const title=document.createElement('div');title.className='mc-title';title.textContent=liveTitle||c.title;
-  front.appendChild(title);
-  const divider=document.createElement('div');divider.className='mc-divider';front.appendChild(divider);
-  if(isPic){
-    const imgWrap=document.createElement('div');imgWrap.className='mc-img-wrap';
-    if(c.img){const im=document.createElement('img');im.className='mc-img';im.src=c.img;im.alt='';imgWrap.appendChild(im);}
-    else{const ph=document.createElement('div');ph.className='mc-img-ph';ph.textContent='No image';imgWrap.appendChild(ph);}
-    front.appendChild(imgWrap);
-  }
-  const desc=document.createElement('div');desc.className='mc-desc';desc.textContent=liveDesc||c.desc;front.appendChild(desc);
-  const dots=document.createElement('div');dots.className='mc-dots';dots.innerHTML='&#8226; &#8226; &#8226; &#8226; &#8226; &#8226; &#8226; &#8226;';front.appendChild(dots);
-  const catLabel=document.createElement('div');catLabel.className='mc-cat-label';catLabel.textContent=CATLABEL[liveCat||c.cat]||'PESACH EDITION';front.appendChild(catLabel);
-  const footer=document.createElement('div');footer.className='mc-footer';
-  const ptsCircle=document.createElement('div');ptsCircle.className='mc-pts-circle';ptsCircle.style.background=PTSCOLORS[livePts]||PTSCOLORS[1];
-  const ptsNum=document.createElement('div');ptsNum.className='mc-pts-num';ptsNum.textContent=livePts;
-  const ptsLabel=document.createElement('div');ptsLabel.className='mc-pts-label';ptsLabel.textContent='POINTS';
-  ptsCircle.appendChild(ptsNum);ptsCircle.appendChild(ptsLabel);footer.appendChild(ptsCircle);front.appendChild(footer);
-
-  const flipContainer=document.createElement('div');flipContainer.className='flip-container';
-  const flipInner=document.createElement('div');flipInner.className='flip-inner';
-  const flipFront=document.createElement('div');flipFront.className='flip-front';flipFront.appendChild(front);
-  const flipBack=document.createElement('div');flipBack.className='flip-back';
-  const backImg=document.createElement('img');backImg.src=backImgDataUri||'Matzah-kers-background.png';backImg.alt='Card back';
-  flipBack.appendChild(backImg);
-  flipInner.appendChild(flipFront);flipInner.appendChild(flipBack);
-  flipContainer.appendChild(flipInner);
-  flipContainer.onclick=function(){flipInner.classList.toggle('flipped');};
-  container.appendChild(flipContainer);
-  const hint=document.createElement('div');hint.className='flip-hint';hint.textContent='Click card to flip';
-  container.appendChild(hint);
-}
-
-function renderPanelFlip(c){
-  const wrap=document.getElementById('panelFlipWrap');
-  if(wrap) buildFlipCard(c, wrap, true);
-}
-
-// ===== CARD MODAL =====
-function openCardModal(id){
-  const c=cards.find(x=>x.id===id);if(!c)return;
-  selectedId=id;
-  document.getElementById('cardModalTitle').textContent=c.title;
-  document.getElementById('cardModalOverlay').classList.add('active');
-  switchModalTab('visual');
-}
-
-function closeCardModal(){
-  document.getElementById('cardModalOverlay').classList.remove('active');
-}
-document.addEventListener('keydown',function(e){if(e.key==='Escape')closeCardModal();});
-
-function switchModalTab(tab){
-  document.querySelectorAll('.card-modal-tab').forEach(t=>{
-    t.classList.toggle('active',t.dataset.tab===tab);
-  });
-  const body=document.getElementById('cardModalBody');
-  const c=cards.find(x=>x.id===selectedId);if(!c){body.innerHTML='';return;}
-  if(tab==='visual'){
-    buildFlipCard(c, body);
-  } else {
-    renderModalEdit(c, body);
-  }
-}
-
-function renderModalEdit(c,container){
-  container.innerHTML='';
-  if(!isSederMode){
-    const p=document.createElement('p');p.style.cssText='text-align:center;color:#aaa;margin-top:20px';
-    p.textContent='Start a seder to edit cards.';container.appendChild(p);return;
-  }
-
-  // Build inline edit form for mobile
-  modalEditPts=c.pts;
-  const form=document.createElement('div');
-  form.style.cssText='font-family:"Nunito Sans",sans-serif;';
-  form.innerHTML=`
-    <div style="margin-bottom:10px"><label style="display:block;font-size:0.72rem;font-weight:800;color:var(--text-light);text-transform:uppercase;margin-bottom:3px">Title</label>
-    <input type="text" id="mTitle" value="${esc(c.title)}" style="width:100%;padding:7px 9px;border:1.5px solid var(--border);border-radius:6px;font-size:0.82rem;background:var(--cream)"></div>
-    <div style="margin-bottom:10px"><label style="display:block;font-size:0.72rem;font-weight:800;color:var(--text-light);text-transform:uppercase;margin-bottom:3px">Description</label>
-    <textarea id="mDesc" rows="4" style="width:100%;padding:7px 9px;border:1.5px solid var(--border);border-radius:6px;font-size:0.82rem;background:var(--cream);resize:vertical">${esc(c.desc)}</textarea></div>
-    <div style="margin-bottom:10px"><label style="display:block;font-size:0.72rem;font-weight:800;color:var(--text-light);text-transform:uppercase;margin-bottom:3px">Category</label>
-    <select id="mCat" style="width:100%;padding:7px 9px;border:1.5px solid var(--border);border-radius:6px;font-size:0.82rem;background:var(--cream)">
-      <option value="People" ${c.cat==='People'?'selected':''}>People</option>
-      <option value="Objects" ${c.cat==='Objects'?'selected':''}>Objects & Seder Items</option>
-      <option value="Phrases" ${c.cat==='Phrases'?'selected':''}>Phrases & Concepts</option>
-      <option value="Fun" ${c.cat==='Fun'?'selected':''}>Fun & Silly</option>
-    </select></div>
-    <div style="margin-bottom:10px"><label style="display:block;font-size:0.72rem;font-weight:800;color:var(--text-light);text-transform:uppercase;margin-bottom:3px">Points</label>
-    <div style="display:flex;gap:8px">
-      <button class="btn ${c.pts===1?'btn-blue':'btn-outline'}" onclick="modalSetPts(1)" style="flex:1">1 Easy</button>
-      <button class="btn ${c.pts===2?'btn-blue':'btn-outline'}" onclick="modalSetPts(2)" style="flex:1">2 Medium</button>
-      <button class="btn ${c.pts===3?'btn-blue':'btn-outline'}" onclick="modalSetPts(3)" style="flex:1">3 Hard</button>
-    </div></div>
-    <div style="display:flex;gap:8px;margin-top:14px">
-      <button class="btn btn-blue" onclick="modalSave()" style="flex:1">Save</button>
-      <button class="btn btn-danger" onclick="modalDelete()">Delete</button>
-    </div>
-    <div id="modalSaveStatus" style="text-align:center;font-size:0.72rem;margin-top:6px"></div>`;
-  container.appendChild(form);
-}
-
-var modalEditPts=1;
-function modalSetPts(n){
-  modalEditPts=n;
-  switchModalTab('edit');
-}
-function modalSave(){
-  const c=cards.find(x=>x.id===selectedId);if(!c)return;
-  c.title=document.getElementById('mTitle').value;
-  c.desc=document.getElementById('mDesc').value;
-  c.cat=document.getElementById('mCat').value;
-  c.pts=modalEditPts;
-  document.getElementById('cardModalTitle').textContent=c.title;
-  // Sync desktop panel if visible
-  if(window.innerWidth>768) selectCard(c.id);
-  saveCards();renderGrid();
-  const st=document.getElementById('modalSaveStatus');
-  if(st){st.textContent='Saved!';st.style.color=PTSCOLORS[1];setTimeout(()=>st.textContent='',2000);}
-}
-function modalDelete(){
-  if(!selectedId||!confirm('Delete this card?'))return;
-  cards=cards.filter(c=>c.id!==selectedId);selectedId=null;
-  closeCardModal();saveCards();renderGrid();
-}
-
-// ===== IMAGE HANDLING =====
-function resizeImage(file,maxDim,quality,cb){
-  const img=new Image();
-  img.onload=function(){
-    let w=img.width,h=img.height;
-    if(w>maxDim||h>maxDim){const r=Math.min(maxDim/w,maxDim/h);w=Math.round(w*r);h=Math.round(h*r);}
-    const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;
-    canvas.getContext('2d').drawImage(img,0,0,w,h);
-    cb(canvas.toDataURL('image/jpeg',quality));
-    URL.revokeObjectURL(img.src);
-  };
-  img.src=URL.createObjectURL(file);
-}
-
-function handleImageUpload(input){
-  const c=cards.find(x=>x.id===selectedId);if(!c||!input.files[0])return;
-  const file=input.files[0];
-  if(file.size>5*1024*1024){alert('Image must be under 5MB.');input.value='';return;}
-  resizeImage(file,800,0.8,function(dataUri){
-    c.img=dataUri;
-    document.getElementById('removeImgBtn').style.display='inline-block';
-    document.getElementById('genStatus').textContent='Image uploaded!';
-    setTimeout(()=>document.getElementById('genStatus').textContent='',2000);
-    saveCards();renderGrid();renderPanelFlip(c);
-  });
-}
-
-function removeImage(){
-  const c=cards.find(x=>x.id===selectedId);if(!c)return;
-  c.img=null;
-  document.getElementById('removeImgBtn').style.display='none';
-  document.getElementById('eImgUpload').value='';
-  saveCards();renderGrid();renderPanelFlip(c);
-}
-
-function saveCard(){
-  const c=cards.find(x=>x.id===selectedId);if(!c)return;
-  c.title=document.getElementById('eTitle').value;
-  c.desc=document.getElementById('eDesc').value;
-  c.cat=document.getElementById('eCat').value;
-  c.pts=editingPts;c.type=editingType;
-  const s=document.getElementById('saveStatus');
-  s.textContent='Saved!';s.style.color=PTSCOLORS[1];
-  setTimeout(()=>s.textContent='',2000);
-  saveCards();renderGrid();renderPanelFlip(c);
-}
-
-function deleteCard(){
-  if(!selectedId||!confirm('Delete this card?'))return;
-  cards=cards.filter(c=>c.id!==selectedId);selectedId=null;
-  document.getElementById('editForm').style.display='none';
-  document.getElementById('editPh').style.display='block';
-  document.getElementById('editTitle').textContent='Select a card to edit';
-  document.getElementById('panelFlipWrap').innerHTML='';
-  saveCards();renderGrid();
-}
-
-function toggleCull(id){const c=cards.find(x=>x.id===id);if(c)c.culled=!c.culled;saveCards();renderGrid();}
-function toggleCulled(){showCulled=!showCulled;renderGrid();}
-
-function addNewCard(){
-  if(!isSederMode) return;
-  const nid=cards.length>0?Math.max(...cards.map(c=>c.id))+1:1;
-  cards.push({id:nid,title:'New Card',cat:'People',pts:1,type:'text',img:null,imgPrompt:'',culled:false,desc:'Enter a description here.'});
-  saveCards();renderGrid();
-  if(window.innerWidth>768) selectCard(nid); else openCardModal(nid);
-}
-
-function toggleFilter(el){
-  const cat=el.dataset.cat;
-  if(activeFilters.has(cat)){activeFilters.delete(cat);el.classList.remove('active');}
-  else{activeFilters.add(cat);el.classList.add('active');}
-  renderGrid();
-}
-
-function toggleHelp(){
-  const b=document.getElementById('helpBanner');
-  b.style.display=b.style.display==='none'?'block':'none';
-}
-
-// Welcome modal — show on first visit
-function dismissWelcome(){
-  document.getElementById('welcomeOverlay').classList.remove('active');
-  localStorage.setItem('matzahkers_welcomed','1');
-}
-if(!localStorage.getItem('matzahkers_welcomed')){
-  document.getElementById('welcomeOverlay').classList.add('active');
-}
-
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-
-// ===== PRINT EXPORT =====
-function exportPrint(){
-  const active=cards.filter(c=>!c.culled);
-  const PTC={1:'#27ae60',2:'#2b7bb9',3:'#c0392b'};
-  const PTL={1:'EASY',2:'MEDIUM',3:'HARD'};
-  const CATL={People:'PEOPLE',Objects:'OBJECTS & SEDER',Phrases:'PHRASES & CONCEPTS',Fun:'FUN & SILLY'};
-  const CATC={People:'#27ae60',Objects:'#e67e22',Phrases:'#2b7bb9',Fun:'#8e44ad'};
-  const CW='60mm',CH='88mm';
-
-  function cardHTML(c){
-    const isPic=c.type==='picture';
-    const bg=isPic?'background:linear-gradient(160deg,#1a1a2e 0%,#16213e 100%)':'background:#f5f0e8';
-    const titleCol=isPic?'#fff':'#1a1a2e';
-    const descCol=isPic?'rgba(255,255,255,0.75)':'#333';
-    const borderCol=isPic?'rgba(200,150,42,0.3)':'#c8b890';
-    const catCol=isPic?'#e8b84b':CATC[c.cat]||'#2b7bb9';
-    const dotsCol=isPic?'rgba(255,255,255,0.15)':'#d4c9b0';
-    const safeImg=c.img&&c.img.startsWith('data:')?c.img:null;
-    const imgPart=isPic?(safeImg
-      ?`<img style="width:100%;height:18mm;object-fit:cover;border-radius:1.5mm;display:block;margin-bottom:1.5mm" src="${safeImg}" alt="">`
-      :`<div style="width:100%;height:18mm;background:rgba(255,255,255,0.07);border-radius:1.5mm;margin-bottom:1.5mm;display:flex;align-items:center;justify-content:center;font-size:6.5pt;color:rgba(255,255,255,0.3)">No image</div>`):'';
-    return `<div style="width:${CW};height:${CH};${bg};border-radius:3.5mm;padding:0;display:flex;flex-direction:column;border:0.35mm solid ${borderCol};box-sizing:border-box;overflow:hidden;page-break-inside:avoid;break-inside:avoid">
-  <div style="text-align:center;padding:3mm 3.5mm 2mm;font-family:'Nunito',sans-serif;font-size:11pt;font-weight:900;color:${titleCol};line-height:1.15">${esc(c.title)}</div>
-  <div style="height:0.35mm;background:${borderCol};margin:0 3.5mm 2mm"></div>
-  <div style="padding:0 3.5mm;flex:1;display:flex;flex-direction:column;overflow:hidden">
-    ${imgPart}
-    <div style="font-family:'Nunito Sans',sans-serif;font-size:8pt;color:${descCol};line-height:1.5;flex:1;overflow:hidden;text-align:center">${esc(c.desc)}</div>
-  </div>
-  <div style="text-align:center;color:${dotsCol};font-size:4pt;letter-spacing:2.5px;margin:1mm 0 0.5mm">&#8226; &#8226; &#8226; &#8226; &#8226; &#8226; &#8226; &#8226;</div>
-  <div style="text-align:center;font-family:'Nunito',sans-serif;font-size:5pt;font-weight:800;letter-spacing:2px;color:${catCol};text-transform:uppercase;margin-bottom:1mm">${esc(CATL[c.cat]||'PESACH')}</div>
-  <div style="display:flex;align-items:center;justify-content:center;padding-bottom:2.5mm">
-    <div style="width:10mm;height:10mm;border-radius:50%;background:${PTC[c.pts]};color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;box-shadow:0 0.3mm 1.5mm rgba(0,0,0,0.2)">
-      <div style="font-size:10pt;font-weight:900;line-height:1">${c.pts}</div>
-      <div style="font-size:3pt;font-weight:700;letter-spacing:0.4px;opacity:0.9">${PTL[c.pts]}</div>
-    </div>
-  </div>
-</div>`;
-  }
-
-  function backHTML(){
-    if(backImgDataUri){
-      return `<div style="width:${CW};height:${CH};border-radius:3.5mm;overflow:hidden;box-sizing:border-box;page-break-inside:avoid;break-inside:avoid;background-image:url('${backImgDataUri}');background-size:cover;background-position:center;border:0.35mm solid #c8b890"></div>`;
-    }
-    return `<div style="width:${CW};height:${CH};background:#1a1a2e;border-radius:3.5mm;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2mm;border:0.35mm solid #2a2a4e;box-sizing:border-box;overflow:hidden;page-break-inside:avoid;break-inside:avoid">
-  <div style="font-family:'Nunito',sans-serif;font-weight:900;font-size:10pt;color:#e8b84b;text-align:center;letter-spacing:1.5px;text-transform:uppercase">MATZAH-KERS</div>
-  <div style="font-family:'Nunito',sans-serif;font-weight:800;font-size:6pt;color:rgba(232,184,75,0.6);text-align:center;letter-spacing:2px;text-transform:uppercase">PESACH EDITION</div>
-</div>`;
-  }
-
-  function toRows(items,perRow){const rows=[];for(let i=0;i<items.length;i+=perRow)rows.push(items.slice(i,i+perRow));return rows;}
-
-  const padded=active.slice();
-  while(padded.length%3!==0)padded.push(null);
-  const frontRows=toRows(padded,3);
-  function toPages(rows,perPage){const p=[];for(let i=0;i<rows.length;i+=perPage)p.push(rows.slice(i,i+perPage));return p;}
-  const frontPages=toPages(frontRows,3);
-  const backPages=frontPages.map(page=>page.map(row=>[...row].reverse()));
-
-  function renderRow(row,fn){
-    return `<div style="display:flex;gap:3mm;justify-content:center;margin-bottom:3mm">${row.map(item=>item?fn(item):`<div style="width:${CW};height:${CH}"></div>`).join('')}</div>`;
-  }
-
-  let allSheets='';
-  for(let i=0;i<frontPages.length;i++){
-    const fpb=i>0?'page-break-before:always;':'';
-    allSheets+=`<div class="page" style="${fpb}">\n<div class="label">FRONTS \u2014 Page ${i+1} of ${frontPages.length}</div>\n${frontPages[i].map(r=>renderRow(r,cardHTML)).join('\n')}\n</div>\n`;
-    allSheets+=`<div class="page" style="page-break-before:always;">\n<div class="label">BACKS \u2014 Page ${i+1} of ${frontPages.length}</div>\n${backPages[i].map(r=>renderRow(r,()=>backHTML())).join('\n')}\n</div>\n`;
-  }
-
-  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
-<style>
-@page{size:A4;margin:12mm 10mm;}
-*{box-sizing:border-box;margin:0;padding:0;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
-body{background:#fff;font-family:'Nunito Sans',sans-serif;}
-.page{display:flex;flex-direction:column;align-items:center;}
-.label{font-family:'Nunito',sans-serif;font-size:7pt;font-weight:700;color:#bbb;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:3mm;text-align:center;}
-.top-section{display:flex;flex-direction:column;align-items:center;padding:20px 10px 0;}
-.instructions-box{max-width:550px;width:100%;background:#f8f6f0;border-radius:12px;border:1px solid #d4c9b0;padding:22px 28px;font-family:'Nunito Sans',sans-serif;font-size:12px;line-height:1.7;color:#444;text-align:left;margin-bottom:10px;}
-.instructions-box h2{font-family:'Nunito',sans-serif;font-size:16px;margin-bottom:10px;color:#1a1a2e;text-align:center;}
-.instructions-box ol,.instructions-box ul{padding-left:20px;margin:6px 0;}
-.instructions-box li{margin-bottom:4px;}
-.instructions-box .note{background:#fff;border:1px solid #d4c9b0;border-radius:8px;padding:10px 14px;margin-top:10px;font-size:11px;color:#666;text-align:center;}
-.print-btn{padding:12px 28px;background:#1a1a2e;color:#e8b84b;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;cursor:pointer;margin:12px 0;}
-.print-btn:hover{background:#2b7bb9;color:#fff;}
-@media print{.top-section{display:none!important;}.label{display:none!important;}}
-</style></head><body>
-<div class="top-section">
-  <div class="instructions-box">
-    <h2>How to Print Your Matzah-kers Deck</h2>
-    <ol>
-      <li>Click <strong>Print Now</strong> below (or Ctrl+P / Cmd+P)</li>
-      <li>Set paper size to <strong>A4</strong></li>
-      <li>Set margins to <strong>Default</strong> or <strong>Minimum</strong></li>
-      <li>Check <strong>"Background graphics"</strong> (essential for colours)</li>
-      <li>Pages alternate: <strong>Fronts, Backs, Fronts, Backs...</strong></li>
-    </ol>
-    <div class="note">
-      <strong>Double-sided:</strong> Print with "Flip on long edge." Backs are mirrored to align with fronts when cut.<br>
-      <strong>Single-sided:</strong> Print page 1, reinsert face-down, print page 2. Repeat per pair.<br><br>
-      <strong>Total:</strong> ${active.length} cards &bull; ${frontPages.length*2} pages (${frontPages.length} front + ${frontPages.length} back)
-    </div>
-  </div>
-  <div class="instructions-box">
-    <h2>How to Play Matzah-kers</h2>
-    <ol>
-      <li><strong>Split into two teams</strong> (at least 2 players each).</li>
-      <li><strong>Deal 5 cards</strong> per player. Keep the ones you know, discard the rest into the deck.</li>
-      <li><strong>Round 1 &mdash; Describe It:</strong> Say anything except words in the title to get your team to guess.</li>
-      <li><strong>Round 2 &mdash; One Word:</strong> Same cards, reshuffled. Only one word as a clue!</li>
-      <li><strong>Round 3 &mdash; Act It Out:</strong> Same cards. No words &mdash; charades only!</li>
-      <li><strong>Score:</strong> Each card = its point value. Most points after 3 rounds wins!</li>
-    </ol>
-    <div class="note">
-      The same cards are used in all three rounds &mdash; clues from Round 1 help in later rounds. Pay attention!
-    </div>
-  </div>
-  <button class="print-btn" onclick="window.print()">&#x1F5A8; Print Now</button>
-</div>
-${allSheets}
-</body></html>`;
-
-  const blob=new Blob([html],{type:'text/html'});
-  window.open(URL.createObjectURL(blob),'_blank');
-}
-
-// ===== FIREBASE SYNC =====
-if(isSederMode && firebaseReady && dbRef){
-  document.getElementById('shareBar').style.display='flex';
-  document.getElementById('shareLink').textContent=window.location.origin+window.location.pathname+'?seder='+sederId;
-  dbRef.on('value',snap=>{
-    const data=snap.val();
-    if(data){
-      const arr=Array.isArray(data)?data:Object.values(data);
-      cards=arr;
-      localStorage.setItem('matzahkers_seder_'+sederId, JSON.stringify(cards));
-      renderGrid();
-    }
-  });
-  db.ref('.info/connected').on('value',snap=>{
-    const el=document.getElementById('syncStatus');
-    if(snap.val()){el.textContent='Live';el.className='sync-status sync-online';}
-    else{el.textContent='Offline';el.className='sync-status sync-offline';}
-  });
-  dbRef.once('value',snap=>{if(!snap.val())dbRef.set(cards);});
-} else if(isSederMode){
-  document.getElementById('syncStatus').textContent='Local only';
-  document.getElementById('syncStatus').className='sync-status sync-offline';
-}
-
-function resetCards(){
-  if(!isSederMode) return;
-  if(!confirm('Reset all cards to defaults? This will erase your edits.'))return;
-  cards=JSON.parse(JSON.stringify(DEFAULT_CARDS));
-  selectedId=null;
-  document.getElementById('editForm').style.display='none';
-  document.getElementById('editPh').style.display='block';
-  document.getElementById('editTitle').textContent='Select a card to edit';
-  document.getElementById('panelFlipWrap').innerHTML='';
-  saveCards();renderGrid();
-}
-
-renderGrid();
+})();
 </script>
+
 </body>
 </html>
