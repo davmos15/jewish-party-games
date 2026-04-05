@@ -1,8 +1,8 @@
 {
   "rules": {
     "seders": {
-      "$sederId": {
-        "cards": {
+      "$festivalId": {
+        "$sederId": {
           ".read": true,
           ".write": true
         }
