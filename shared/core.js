@@ -762,6 +762,7 @@ function renderPanelFlip(c) {
 function openCardModal(id) {
   const c = cards.find(x => x.id === id); if (!c) return;
   selectedId = id;
+  modalEditPts = c.pts;
   document.getElementById('cardModalTitle').textContent = c.title;
   document.getElementById('cardModalOverlay').classList.add('active');
   switchModalTab('visual');
@@ -792,7 +793,6 @@ function renderModalEdit(c, container) {
     p.textContent = 'Start a game session to edit cards.'; container.appendChild(p); return;
   }
 
-  modalEditPts = c.pts;
   const form = document.createElement('div');
   form.style.cssText = 'font-family:"Nunito Sans",sans-serif;';
 
@@ -810,9 +810,9 @@ function renderModalEdit(c, container) {
     '<select id="mCat" style="width:100%;padding:7px 9px;border:1.5px solid var(--border);border-radius:6px;font-size:0.82rem;background:var(--cream)">' + catOptions + '</select></div>' +
     '<div style="margin-bottom:10px"><label style="display:block;font-size:0.72rem;font-weight:800;color:var(--text-light);text-transform:uppercase;margin-bottom:3px">Points</label>' +
     '<div style="display:flex;gap:8px">' +
-    '<button class="btn ' + (c.pts === 1 ? 'btn-blue' : 'btn-outline') + '" onclick="modalSetPts(1)" style="flex:1">1 Easy</button>' +
-    '<button class="btn ' + (c.pts === 2 ? 'btn-blue' : 'btn-outline') + '" onclick="modalSetPts(2)" style="flex:1">2 Medium</button>' +
-    '<button class="btn ' + (c.pts === 3 ? 'btn-blue' : 'btn-outline') + '" onclick="modalSetPts(3)" style="flex:1">3 Hard</button>' +
+    '<button class="btn modal-pts-btn ' + (modalEditPts === 1 ? 'btn-blue' : 'btn-outline') + '" data-pts="1" onclick="modalSetPts(1)" style="flex:1">1 Easy</button>' +
+    '<button class="btn modal-pts-btn ' + (modalEditPts === 2 ? 'btn-blue' : 'btn-outline') + '" data-pts="2" onclick="modalSetPts(2)" style="flex:1">2 Medium</button>' +
+    '<button class="btn modal-pts-btn ' + (modalEditPts === 3 ? 'btn-blue' : 'btn-outline') + '" data-pts="3" onclick="modalSetPts(3)" style="flex:1">3 Hard</button>' +
     '</div></div>' +
     '<div style="display:flex;gap:8px;margin-top:14px">' +
     '<button class="btn btn-blue" onclick="modalSave()" style="flex:1">Save</button>' +
@@ -825,7 +825,11 @@ function renderModalEdit(c, container) {
 var modalEditPts = 1;
 function modalSetPts(n) {
   modalEditPts = n;
-  switchModalTab('edit');
+  document.querySelectorAll('.modal-pts-btn').forEach(function(btn) {
+    const isActive = parseInt(btn.dataset.pts) === n;
+    btn.className = 'btn modal-pts-btn ' + (isActive ? 'btn-blue' : 'btn-outline');
+    btn.style.flex = '1';
+  });
 }
 function modalSave() {
   const c = cards.find(x => x.id === selectedId); if (!c) return;
