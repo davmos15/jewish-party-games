@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jewish Party Games</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎉</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #e8e0d0;
+  --cream-light: #f5f0e8;
+  --navy: #1a1a2e;
+  --gold: #c8962a;
+  --gold-light: #e8b84b;
+  --text: #1a1a2e;
+  --text-light: #555;
+  --shadow: rgba(0,0,0,0.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Nunito Sans', sans-serif;
+  background: var(--cream);
+  min-height: 100vh;
+  color: var(--text);
+}
+
+/* ---- Header ---- */
+header {
+  background: var(--navy);
+  padding: 48px 28px 52px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse at 50% 120%, rgba(200,150,42,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+header h1 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 2.6rem;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+header h1 span {
+  color: var(--gold-light);
+}
+
+header p {
+  color: rgba(255,255,255,0.65);
+  font-size: 1.1rem;
+  font-weight: 600;
+  position: relative;
+}
+
+/* ---- Main ---- */
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 40px 20px 60px;
+}
+
+/* ---- Festival Tiles ---- */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 56px;
+}
+
+.tile {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px var(--shadow), 0 1px 4px rgba(0,0,0,0.06);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.tile:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.16), 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.tile-header {
+  padding: 28px 24px 20px;
+  text-align: center;
+  position: relative;
+}
+
+.tile-emoji {
+  font-size: 3.2rem;
+  display: block;
+  margin-bottom: 12px;
+  line-height: 1;
+}
+
+.tile-name {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.tile-subtitle {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  opacity: 0.55;
+}
+
+.tile-body {
+  padding: 0 24px 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.tile-desc {
+  font-size: 0.92rem;
+  color: var(--text-light);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex: 1;
+}
+
+.tile-btn {
+  display: block;
+  width: 100%;
+  padding: 12px 0;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #fff;
+  cursor: pointer;
+  transition: filter 0.15s;
+  text-align: center;
+  text-decoration: none;
+  letter-spacing: 0.3px;
+}
+
+.tile-btn:hover {
+  filter: brightness(1.1);
+}
+
+.tile-pesach .tile-header { background: linear-gradient(135deg, #fef9f0 0%, #fdf3e0 100%); }
+.tile-pesach .tile-btn { background: #c8962a; }
+
+.tile-shavuot .tile-header { background: linear-gradient(135deg, #f0f5fe 0%, #e6effe 100%); }
+.tile-shavuot .tile-btn { background: #2b7bb9; }
+
+.tile-chanukah .tile-header { background: linear-gradient(135deg, #eef3fe 0%, #dbeafe 100%); }
+.tile-chanukah .tile-btn { background: #1d4ed8; }
+
+.tile-custom .tile-header { background: linear-gradient(135deg, #f3f0fe 0%, #ece6fe 100%); }
+.tile-custom .tile-btn { background: #6c5ce7; }
+
+/* ---- How to Play ---- */
+.how-section {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px var(--shadow);
+  padding: 36px 32px;
+  margin-bottom: 40px;
+}
+
+.how-section h2 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin-bottom: 24px;
+  text-align: center;
+  color: var(--text);
+}
+
+.rounds {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.round {
+  text-align: center;
+  padding: 20px 16px;
+  border-radius: 12px;
+  background: var(--cream-light);
+}
+
+.round-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: #fff;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.round h3 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.round p {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  line-height: 1.5;
+}
+
+/* ---- Footer ---- */
+footer {
+  text-align: center;
+  padding: 32px 20px 40px;
+  color: var(--text-light);
+  font-size: 0.85rem;
+}
+
+footer a {
+  color: var(--gold);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+footer .footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 640px) {
+  header { padding: 36px 20px 40px; }
+  header h1 { font-size: 2rem; }
+  header p { font-size: 0.95rem; }
+  main { padding: 28px 16px 48px; }
+  .tiles { gap: 18px; }
+  .how-section { padding: 28px 20px; }
+  .rounds { gap: 14px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🎉 Jewish <span>Party Games</span></h1>
+  <p>Choose your festival edition</p>
+</header>
+
+<main>
+  <div class="tiles">
+    <a class="tile tile-pesach" href="./pesach/">
+      <div class="tile-header">
+        <span class="tile-emoji">🍷</span>
+        <div class="tile-name">Matzah-kers</div>
+        <div class="tile-subtitle">Pesach Edition</div>
+      </div>
+      <div class="tile-body">
+        <p class="tile-desc">A Pesach-themed party game for your Seder table. 119 pre-made cards about the Exodus, the Seder, and everything in between. Add your own or edit the defaults to make it yours.</p>
+        <span class="tile-btn">Play Now</span>
+      </div>
+    </a>
+
+    <a class="tile tile-shavuot" href="./shavuot/">
+      <div class="tile-header">
+        <span class="tile-emoji">📜</span>
+        <div class="tile-name">Torah-kers</div>
+        <div class="tile-subtitle">Shavuot Edition</div>
+      </div>
+      <div class="tile-body">
+        <p class="tile-desc">A Shavuot-themed party game celebrating Matan Torah. 50 cards about Torah, Ruth, cheesecake, and staying up all night. Fully customisable — add your own cards or edit the defaults.</p>
+        <span class="tile-btn">Play Now</span>
+      </div>
+    </a>
+
+    <a class="tile tile-chanukah" href="./chanukah/">
+      <div class="tile-header">
+        <span class="tile-emoji">🕎</span>
+        <div class="tile-name">Channukers</div>
+        <div class="tile-subtitle">Chanukah Edition</div>
+      </div>
+      <div class="tile-body">
+        <p class="tile-desc">A Chanukah party game with 45 cards about Maccabees, menorahs, latkes, dreidels, and everything in between. Cull, add, or customise to match your crowd.</p>
+        <span class="tile-btn">Play Now</span>
+      </div>
+    </a>
+
+    <a class="tile tile-custom" href="./custom/">
+      <div class="tile-header">
+        <span class="tile-emoji">🎲</span>
+        <div class="tile-name">Party Cards</div>
+        <div class="tile-subtitle">Custom Edition</div>
+      </div>
+      <div class="tile-body">
+        <p class="tile-desc">Build your own card game from scratch for any occasion — family trivia, work events, birthdays. No default cards, complete creative freedom.</p>
+        <span class="tile-btn">Play Now</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="how-section">
+    <h2>How to Play</h2>
+    <div class="rounds">
+      <div class="round">
+        <div class="round-number">1</div>
+        <h3>Describe It</h3>
+        <p>Use as many words as you like to describe the card to your team. No saying the word itself!</p>
+      </div>
+      <div class="round">
+        <div class="round-number">2</div>
+        <h3>One Word</h3>
+        <p>Same cards, but now you can only say a single word as a clue. Choose wisely!</p>
+      </div>
+      <div class="round">
+        <div class="round-number">3</div>
+        <h3>Act It Out</h3>
+        <p>No words allowed! Use charades to get your team to guess the card.</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-links">
+    <a href="https://buymeacoffee.com/nadavmoskow" target="_blank" rel="noopener">☕ Buy Me a Coffee</a>
+    <a href="mailto:moskownadav@gmail.com">✉ Send Feedback</a>
+  </div>
+  <p>Made with ❤️ for Jewish game nights everywhere</p>
+</footer>
+
+<script>
+// Backward compatibility: redirect ?seder=<id> to pesach edition
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var sederId = params.get('seder');
+  if (sederId) {
+    window.location.replace('./pesach/?seder=' + encodeURIComponent(sederId));
+  }
+})();
+</script>
+
+</body>
+</html>

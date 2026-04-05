@@ -1,0 +1,12 @@
+{
+  "rules": {
+    "seders": {
+      "$sederId": {
+        "cards": {
+          ".read": true,
+          ".write": true
+        }
+      }
+    }
+  }
+}
