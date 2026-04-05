@@ -2,15 +2,18 @@
 
 A platform for collaborative party card games inspired by Monikers, themed around Jewish festivals. Browse cards, build custom decks with real-time collaboration, and print them for your holiday table.
 
-**[Play Now](https://davmos15.github.io/matzah-kers/)**
+**[Play Now](https://davmos15.github.io/jewish-party-games/)**
 
 ## Editions
 
 ### Matzah-kers: Pesach Edition
-114 cards covering people, objects, phrases, and fun moments from the Seder and the Exodus story.
+119 cards covering people, objects, phrases, and fun moments from the Seder and the Exodus story.
 
 ### Torah-kers: Shavuot Edition
 50 cards about Matan Torah, Megillat Ruth, dairy foods, staying up all night, and more.
+
+### Channukers: Chanukah Edition
+45 cards about Maccabees, menorahs, latkes, dreidels, and everything in between.
 
 ### Party Cards: Custom Edition
 A blank template — start from scratch and create your own party card game for any occasion.
@@ -49,11 +52,13 @@ The same cards are used in all three rounds — clues from Round 1 help in later
 /
 ├── index.html              # Hub / landing page
 ├── shared/
-│   ├── core.js             # Shared app logic
+│   ├── core.js             # Shared app logic (builds DOM + all game behaviour)
 │   ├── core.css            # Shared styles (CSS variable theming)
+│   ├── hub.css             # Landing page styles
 │   └── firebase-config.js  # Firebase init
-├── pesach/                 # Pesach edition (114 cards)
+├── pesach/                 # Pesach edition (119 cards)
 ├── shavuot/                # Shavuot edition (50 cards)
+├── chanukah/               # Chanukah edition (45 cards)
 └── custom/                 # Blank template
 ```
 

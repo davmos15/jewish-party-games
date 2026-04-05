@@ -1,3 +1,226 @@
+// ===== DOM BUILD =====
+// Builds the entire app UI from JS so all festival pages share one HTML shell.
+(function buildDOM() {
+  document.body.innerHTML = `<header>
+  <h1 id="headerTitle"></h1>
+  <div class="header-actions">
+    <div class="stat-pill" id="statPill">0 cards</div>
+    <button class="btn btn-gold btn-sm catalog-only" onclick="startNewSeder()">&#x1F389; Create Your Own</button>
+    <div class="view-toggle seder-only">
+      <button class="view-toggle-btn active" id="viewGridBtn" onclick="toggleViewMode('grid')">Grid</button>
+      <button class="view-toggle-btn" id="viewTableBtn" onclick="toggleViewMode('table')">Table</button>
+    </div>
+    <button class="btn btn-ghost btn-sm seder-only" onclick="toggleCulled()">Toggle Culled</button>
+    <button class="btn btn-gold btn-sm seder-only" onclick="exportPrint()">&#x1F5A8; Print Deck</button>
+    <button class="btn btn-ghost btn-sm seder-only" onclick="exportCSV()">&#x1F4E5; Export CSV</button>
+    <button class="btn btn-ghost btn-sm seder-only" onclick="document.getElementById('csvImport').click()">&#x1F4E4; Import CSV</button>
+    <input type="file" id="csvImport" accept=".csv" onchange="importCSV(this)" style="display:none">
+    <span class="sync-status sync-offline seder-only" id="syncStatus">Connecting...</span>
+    <button class="btn btn-ghost btn-sm seder-only" onclick="resetCards()">Reset Defaults</button>
+    <a href="../" class="btn btn-ghost btn-sm">&#x1F3E0; All Games</a>
+    <a href="https://buymeacoffee.com/nadavmoskow" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">&#x2615; Support</a>
+  </div>
+</header>
+<div class="share-bar seder-only" id="shareBar" style="display:none">
+  <span style="font-weight:700;color:var(--text-light)">Share this link with your partner:</span>
+  <code id="shareLink"></code>
+  <button class="btn btn-blue btn-sm" onclick="copyShareLink()">Copy Link</button>
+  <span class="copy-msg" id="copyMsg"></span>
+</div>
+<div class="toolbar">
+  <div class="filter-group" id="categoryFilters"><label>Category:</label></div>
+  <div class="filter-group">
+    <label>Points:</label>
+    <select id="ptsFilter" onchange="renderGrid()">
+      <option value="all">All</option>
+      <option value="1">1 pt</option>
+      <option value="2">2 pts</option>
+      <option value="3">3 pts</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label>Search:</label>
+    <input type="text" id="searchBox" placeholder="Search..." oninput="renderGrid()" style="width:140px">
+  </div>
+  <div class="filter-group">
+    <button class="btn btn-outline btn-sm" onclick="toggleHelp()" style="font-size:0.72rem;gap:4px">? How to Use</button>
+  </div>
+</div>
+<div class="welcome-overlay" id="welcomeOverlay">
+  <div class="welcome-modal" onclick="event.stopPropagation()">
+    <h2 id="welcomeTitle"></h2>
+    <p class="welcome-subtitle" id="welcomeSubtitle"></p>
+    <div class="welcome-cols">
+      <div class="welcome-col">
+        <strong>&#x1F3AE; How to Play</strong>
+        <ol>
+          <li><strong>Two teams</strong>, 5 cards each player. Keep the ones you know.</li>
+          <li><strong>Round 1:</strong> Describe it (no title words!)</li>
+          <li><strong>Round 2:</strong> One word only</li>
+          <li><strong>Round 3:</strong> Charades only</li>
+          <li>Same cards all 3 rounds. Most points wins!</li>
+        </ol>
+      </div>
+      <div class="welcome-col">
+        <strong>&#x1F4CB; How to Use This App</strong>
+        <ul>
+          <li>Tap any card to preview &amp; flip it</li>
+          <li>Click <strong>Create Your Own</strong> to start your deck</li>
+          <li>Share the link with your partner for live sync</li>
+          <li>Cull, edit, add cards, or bulk-edit via CSV or Table view</li>
+          <li>Print your deck for double-sided printing</li>
+        </ul>
+      </div>
+    </div>
+    <div class="welcome-tip">&#x1F4A1; <strong>Tip:</strong> The same cards are used in all three rounds &mdash; clues from Round 1 help in later rounds. Pay attention!</div>
+    <button class="welcome-dismiss" onclick="dismissWelcome()">Got it &mdash; Let&apos;s Play!</button>
+  </div>
+</div>
+<div class="help-banner" id="helpBanner" style="display:none">
+  <div class="help-inner">
+    <div class="help-col">
+      <strong>&#x1F3B2; How to Play</strong>
+      <ol>
+        <li><strong>Two teams</strong>, 5 cards each player. Keep the ones you know.</li>
+        <li><strong>Round 1:</strong> Describe it (no title words!)</li>
+        <li><strong>Round 2:</strong> One word only</li>
+        <li><strong>Round 3:</strong> Charades only</li>
+        <li>Same cards all 3 rounds. Most points wins!</li>
+      </ol>
+    </div>
+    <div class="help-col">
+      <strong>&#x1F4CB; How to Use This App</strong>
+      <ul>
+        <li>Tap any card to preview &amp; flip it</li>
+        <li>Click <strong>Create Your Own</strong> to start your deck</li>
+        <li>Share the link with your partner for live sync</li>
+        <li>Cull, edit, add cards, or bulk-edit via CSV or Table view</li>
+        <li>Print your deck with fronts &amp; backs for double-sided printing</li>
+      </ul>
+    </div>
+    <button class="help-close" onclick="toggleHelp()" aria-label="Close help">&times;</button>
+  </div>
+</div>
+<div class="main">
+  <div class="card-grid-panel" id="gridPanel">
+    <div class="grid-header">
+      <h2 id="gridLabel">All Cards</h2>
+      <button class="btn btn-blue btn-sm seder-only" onclick="addNewCard()">+ Add Card</button>
+    </div>
+    <div class="card-back-section" id="cardBackSection">
+      <div class="back-label">Card Back</div>
+      <div id="cardBackPreview"></div>
+      <div class="card-back-actions seder-only">
+        <button class="btn btn-outline btn-sm" onclick="document.getElementById('backUpload').click()">Upload Custom Back</button>
+        <button class="btn btn-outline btn-sm" id="resetBackBtn" onclick="resetCardBack()" style="display:none">Reset to Default</button>
+        <input type="file" id="backUpload" accept="image/*" onchange="handleBackUpload(this)" style="display:none">
+      </div>
+    </div>
+    <div class="card-grid" id="cardGrid"></div>
+  </div>
+  <div class="table-view-container" id="tablePanel" style="display:none">
+    <div class="bulk-table-actions" id="tableActions"></div>
+    <div id="tableContainer"></div>
+  </div>
+  <div class="edit-panel" id="editPanel">
+    <h3><span id="editTitle">Select a card to edit</span></h3>
+    <div id="editForm" style="display:none">
+      <div class="type-toggle">
+        <div class="type-btn active" id="typeBtnText" onclick="setCardType('text')">Text Card</div>
+        <div class="type-btn" id="typeBtnPicture" onclick="setCardType('picture')">Picture Card</div>
+      </div>
+      <div class="form-group"><label>Title</label><input type="text" id="eTitle" oninput="updatePreview()"></div>
+      <div class="form-group"><label>Description</label><textarea id="eDesc" oninput="updatePreview()"></textarea></div>
+      <div class="form-group"><label>Category</label><select id="eCat" onchange="updatePreview()"></select></div>
+      <div class="form-group">
+        <label>Points (Difficulty)</label>
+        <div class="pts-picker">
+          <div class="pts-opt" data-pts="1" onclick="setPts(1)">1<br><small style="font-size:0.5rem;font-weight:600">Easy</small></div>
+          <div class="pts-opt" data-pts="2" onclick="setPts(2)">2<br><small style="font-size:0.5rem;font-weight:600">Medium</small></div>
+          <div class="pts-opt" data-pts="3" onclick="setPts(3)">3<br><small style="font-size:0.5rem;font-weight:600">Hard</small></div>
+        </div>
+      </div>
+      <div id="pictureControls" style="display:none">
+        <div class="form-group">
+          <label>Upload Image</label>
+          <input type="file" id="eImgUpload" accept="image/*" onchange="handleImageUpload(this)" style="font-size:0.78rem">
+        </div>
+        <button class="btn btn-danger btn-sm" id="removeImgBtn" onclick="removeImage()" style="display:none;margin-top:4px">Remove Image</button>
+        <div id="genStatus"></div>
+      </div>
+      <div class="edit-actions">
+        <button class="btn btn-blue" onclick="saveCard()" style="flex:1">Save Card</button>
+        <button class="btn btn-danger" onclick="deleteCard()">Delete</button>
+      </div>
+      <div id="saveStatus"></div>
+      <div class="panel-flip-wrap" id="panelFlipWrap"></div>
+    </div>
+    <div id="editPh" style="color:#aaa;font-size:0.82rem;text-align:center;margin-top:40px;line-height:1.9">Click any card to edit it.</div>
+  </div>
+</div>
+<div class="card-modal-overlay" id="cardModalOverlay" onclick="closeCardModal()">
+  <div class="card-modal" onclick="event.stopPropagation()">
+    <div class="card-modal-header">
+      <h3 id="cardModalTitle">Card</h3>
+      <button class="card-modal-close" onclick="closeCardModal()" aria-label="Close card">&times;</button>
+    </div>
+    <div class="card-modal-tabs" id="cardModalTabs">
+      <button class="card-modal-tab active" data-tab="visual" onclick="switchModalTab('visual')">Visual</button>
+      <button class="card-modal-tab seder-only" data-tab="edit" onclick="switchModalTab('edit')">Edit</button>
+    </div>
+    <div class="card-modal-body" id="cardModalBody"></div>
+  </div>
+</div>
+<div class="info-section" id="infoSection">
+  <div class="info-box">
+    <h2>&#x1F3B2; How to Play</h2>
+    <ol>
+      <li><strong>Split into two teams.</strong> Each team should have at least 2 players.</li>
+      <li><strong>Deal cards.</strong> Each player gets 5 cards from the deck. Secretly look at them and choose which ones to keep (discard any you don't know).</li>
+      <li><strong>Round 1 &mdash; Describe It:</strong> Give any clues you want (words, sounds, gestures) to get your team to guess. You just can't say any word in the title.</li>
+      <li><strong>Round 2 &mdash; One Word:</strong> Same cards, reshuffled. This time you can only say <strong>one single word</strong> as a clue.</li>
+      <li><strong>Round 3 &mdash; Act It Out:</strong> Same cards again. No words at all &mdash; only charades!</li>
+      <li><strong>Scoring:</strong> Each card is worth its point value (1, 2, or 3). Team with the most points after all three rounds wins!</li>
+    </ol>
+    <p style="margin-top:10px;font-size:0.82rem;color:var(--text-light)"><strong>Tip:</strong> The fun of the game is that all three rounds use the same cards &mdash; so clues from Round 1 help in later rounds. Pay attention!</p>
+  </div>
+  <div class="info-box">
+    <h2>&#x1F4CB; How to Use This App</h2>
+    <ul>
+      <li><strong>Browse</strong> all cards in the catalog above. Tap any card to preview it and flip to see the back.</li>
+      <li><strong>Create Your Own</strong> to start your deck with a unique shareable link.</li>
+      <li><strong>Share the link</strong> with your partner &mdash; edits sync in real-time.</li>
+      <li><strong>Cull cards</strong> you don't want, add your own, or upload images for picture cards.</li>
+      <li><strong>Table View</strong> to bulk-edit all cards in a spreadsheet-style editor.</li>
+      <li><strong>Export/Import CSV</strong> to bulk-edit your deck in a spreadsheet.</li>
+      <li><strong>Upload a custom card back</strong> to personalize your deck.</li>
+      <li><strong>Print your deck</strong> with the Print button &mdash; includes fronts and backs for double-sided printing.</li>
+    </ul>
+  </div>
+  <div class="info-box" style="text-align:center;">
+    <h2>&#x1F4AC; Get in Touch</h2>
+    <p>Enjoying the game? Have feedback or ideas? We'd love to hear from you!</p>
+    <div class="info-links" style="justify-content:center;margin-top:12px;">
+      <a href="https://buymeacoffee.com/nadavmoskow" target="_blank" rel="noopener" class="btn btn-gold">&#x2615; Buy Me a Coffee</a>
+      <a href="mailto:moskownadav@gmail.com" class="btn btn-outline" style="gap:4px">&#x2709; Send Feedback</a>
+    </div>
+  </div>
+</div>
+<div id="printLoading" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:16px;padding:32px 48px;text-align:center;box-shadow:0 12px 48px rgba(0,0,0,0.3)">
+    <div style="font-family:'Nunito',sans-serif;font-weight:900;font-size:1.2rem;color:#1a1a2e;margin-bottom:8px">Generating Print Preview...</div>
+    <div style="font-size:0.85rem;color:#888">This may take a moment</div>
+  </div>
+</div>
+<div id="toastContainer" class="toast-container"></div>`;
+})();
+
+// ===== CONSTANTS =====
+const MAX_IMG_SIZE  = 5 * 1024 * 1024; // 5 MB
+const MAX_IMG_DIM   = 800;              // px — max width/height when resizing
+const PRINT_CARD_W  = '60mm';
+const PRINT_CARD_H  = '88mm';
+
 // ===== FESTIVAL CONFIG =====
 const CFG = window.FESTIVAL_CONFIG;
 const PTSCOLORS = {1:'#27ae60', 2:'#2b7bb9', 3:'#c0392b'};
@@ -73,8 +296,9 @@ function renderCardBackPreview() {
 function handleBackUpload(input) {
   if (!input.files[0]) return;
   const file = input.files[0];
-  if (file.size > 5 * 1024 * 1024) { alert('Image must be under 5MB.'); input.value = ''; return; }
-  resizeImage(file, 800, 0.85, function(dataUri) {
+  if (!file.type.startsWith('image/')) { showToast('Please upload an image file.', 'error'); input.value = ''; return; }
+  if (file.size > MAX_IMG_SIZE) { showToast('Image must be under 5MB.', 'error'); input.value = ''; return; }
+  resizeImage(file, MAX_IMG_DIM, 0.85, function(dataUri) {
     customBackImgDataUri = dataUri;
     localStorage.setItem(CFG.storagePrefix + '_back_' + sederId, dataUri);
     if (firebaseReady && dbBackRef) dbBackRef.set(dataUri);
@@ -108,10 +332,11 @@ function generateSederId() {
 }
 
 function startNewSeder() {
+  if (!firebaseReady) { showToast('No connection — cannot create a session.', 'error'); return; }
   const id = generateSederId();
   db.ref('seders/' + CFG.id + '/' + id + '/cards').set(JSON.parse(JSON.stringify(CFG.defaultCards))).then(() => {
     window.location.href = window.location.pathname + '?seder=' + id;
-  });
+  }).catch(() => { showToast('Failed to create session. Please try again.', 'error'); });
 }
 
 function copyShareLink() {
@@ -141,7 +366,7 @@ function importCSV(input) {
   reader.onload = function(e) {
     try {
       const lines = e.target.result.split('\n').filter(l => l.trim());
-      if (lines.length < 2) { alert('CSV is empty.'); return; }
+      if (lines.length < 2) { showToast('CSV is empty.', 'error'); return; }
       const newCards = [];
       for (let i = 1; i < lines.length; i++) {
         const cols = parseCSVLine(lines[i]);
@@ -154,13 +379,12 @@ function importCSV(input) {
           imgPrompt: '', culled: false, desc: cols[5]
         });
       }
-      if (newCards.length === 0) { alert('No valid cards in CSV.'); return; }
+      if (newCards.length === 0) { showToast('No valid cards found in CSV.', 'error'); return; }
       cards = newCards;
       selectedId = null;
       saveCards(); renderGrid();
-      alert('Imported ' + newCards.length + ' cards!');
-    } catch(err) { alert('Error parsing CSV: ' + err.message); }
-    input.value = '';
+      showToast('Imported ' + newCards.length + ' cards!', 'success');
+    } catch(err) { showToast('Error parsing CSV: ' + err.message, 'error'); input.value = ''; }
   };
   reader.readAsText(input.files[0]);
 }
@@ -185,6 +409,23 @@ function parseCSVLine(line) {
 
 // ===== UTILITY =====
 function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+// ===== TOAST NOTIFICATIONS =====
+function showToast(msg, type, duration) {
+  type = type || 'info';
+  duration = duration === undefined ? 3000 : duration;
+  const container = document.getElementById('toastContainer');
+  if (!container) return;
+  const toast = document.createElement('div');
+  toast.className = 'toast toast-' + type;
+  toast.textContent = msg;
+  container.appendChild(toast);
+  setTimeout(function() {
+    toast.style.opacity = '0';
+    toast.style.transition = 'opacity 0.3s';
+    setTimeout(function() { if (toast.parentNode) toast.remove(); }, 300);
+  }, duration);
+}
 
 // ===== DEBOUNCED RENDER =====
 let _renderTimeout = null;
@@ -621,8 +862,9 @@ function resizeImage(file, maxDim, quality, cb) {
 function handleImageUpload(input) {
   const c = cards.find(x => x.id === selectedId); if (!c || !input.files[0]) return;
   const file = input.files[0];
-  if (file.size > 5 * 1024 * 1024) { alert('Image must be under 5MB.'); input.value = ''; return; }
-  resizeImage(file, 800, 0.8, function(dataUri) {
+  if (!file.type.startsWith('image/')) { showToast('Please upload an image file.', 'error'); input.value = ''; return; }
+  if (file.size > MAX_IMG_SIZE) { showToast('Image must be under 5MB.', 'error'); input.value = ''; return; }
+  resizeImage(file, MAX_IMG_DIM, 0.8, function(dataUri) {
     c.img = dataUri;
     document.getElementById('removeImgBtn').style.display = 'inline-block';
     document.getElementById('genStatus').textContent = 'Image uploaded!';
@@ -692,7 +934,7 @@ function exportPrint() {
   if (loadingEl) loadingEl.style.display = 'flex';
 
   setTimeout(function() {
-    try { _doPrintExport(); } catch(e) { console.error('Print error:', e); alert('Error generating print preview.'); }
+    try { _doPrintExport(); } catch(e) { console.error('Print error:', e); showToast('Error generating print preview.', 'error'); }
     if (loadingEl) loadingEl.style.display = 'none';
     _printLock = false;
   }, 50);
@@ -700,11 +942,11 @@ function exportPrint() {
 
 function _doPrintExport() {
   const active = cards.filter(c => !c.culled);
-  if (active.length === 0) { alert('No cards to print! Uncull some cards first.'); return; }
+  if (active.length === 0) { showToast('No cards to print — restore some culled cards first.', 'error'); return; }
 
   const PTC = {1: '#27ae60', 2: '#2b7bb9', 3: '#c0392b'};
   const PTL = {1: 'EASY', 2: 'MEDIUM', 3: 'HARD'};
-  const CW = '60mm', CH = '88mm';
+  const CW = PRINT_CARD_W, CH = PRINT_CARD_H;
   const effectiveBack = getEffectiveBack();
 
   function cardHTML(c) {
@@ -822,7 +1064,8 @@ if (isSederMode && firebaseReady && dbRef) {
 
   dbRef.once('value', snap => {
     if (!snap.val()) {
-      // For pesach backward compat: try old path
+      // TODO: remove this block once all old pesach sessions have been migrated
+      // (migrates sessions from pre-multi-festival path seders/<id> → seders/pesach/<id>)
       if (CFG.id === 'pesach') {
         db.ref('seders/' + sederId + '/cards').once('value', oldSnap => {
           if (oldSnap.val()) {
